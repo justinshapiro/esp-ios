@@ -13,16 +13,29 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
     // MARK: View Model
     
     enum ViewModel {
+        case initial(Initial)
         case waiting
         case failure(Failure)
         case success
         
+        struct Initial {
+            let submit: (Feedback) -> ()
+        }
+        
         struct Failure {
             let message: String
+            let submit: (Feedback) -> ()
         }
     }
     
     // MARK: IBOutlets
+    
+    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+        didSet {
+            waitingIndicator.stopAnimating()
+            waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
+        }
+    }
     
     @IBOutlet weak private var effectiveErrorView: UIView! {
         didSet {
@@ -62,12 +75,14 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         }
     }
     
-    @IBAction private func submitFeedbackAction(_ sender: UIButton) {
-        performSegue(withIdentifier: "thankYou", sender: self)
-    }
-    
-    
     @IBAction private func exitRequested(_ sender: UIBarButtonItem) {
+        collectFeedback()
+        
+        if let feedback = feedback {
+            UserDefaults.standard.setValuesForKeys(feedback.tabularRepresentation())
+        }
+        
+        UserDefaults.standard.set(feedbackPosition.rawValue, forKey: "feedbackPosition")
         performSegue(withIdentifier: "unwindFromPage6", sender: self)
     }
     
@@ -75,11 +90,60 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         view.endEditing(true)
     }
     
+    // MARK: Properties
+    
+    var feedback: Feedback?
+    var feedbackPosition: FeedbackPosition = .page6
+    private var submitFeedbackAction: Target? {
+        didSet {
+            submitFeedbackButton.addTarget(submitFeedbackAction, action: #selector(Target.action), for: .touchUpInside)
+        }
+    }
+    
+    // MARK: Overrides
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        collectFeedback()
+        (parent?.childViewControllers.last as? ProvideFeedbackPage5ViewController)?.feedback = feedback
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        restoreFeedback()
+    }
+    
+    // MARK: Helper methods
+    
+    private func collectFeedback() {
+        if feedback == nil {
+            feedback = Feedback(tabularRepresentation: UserDefaults.standard.dictionaryRepresentation())
+        }
+        
+        feedback?._6a = alertReceivedSelection.titleForSegment(at: alertReceivedSelection.selectedSegmentIndex)!
+        feedback?._6b = alertFunctionalityFeedback.text
+        feedback?._6c = "\(Int(batterySlider.value))"
+        
+        if let feedback = feedback {
+            UserDefaults.standard.setValuesForKeys(feedback.tabularRepresentation())
+        }
+    }
+    
+    private func restoreFeedback() {
+        guard let savedFeedback = UserDefaults.standard.dictionaryWithValues(forKeys: ["6a", "6b", "6c"]) as? [String: String] else { return }
+        
+        alertReceivedSelection.selectedSegmentIndex = alertReceivedSelection.index(for: savedFeedback["6a"]!) ?? 0
+        alertFunctionalityFeedback.text = savedFeedback["6b"]!
+        batterySlider.value = Float(savedFeedback["6c"]!) ?? batterySlider.value
+        batterySliderChanged(batterySlider)
+    }
+    
     // MARK: State configuration
     
-    public func render(_ state: ViewModel) {
+    public func render(state: ViewModel) {
         DispatchQueue.main.async {
             switch state {
+            case .initial(let initial): self.renderInitialState(state: initial)
             case .waiting:              self.renderWaitingState()
             case .failure(let failure): self.renderFailureState(state: failure)
             case .success:              self.renderSuccessState()
@@ -87,15 +151,41 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         }
     }
     
-    private func renderWaitingState() {
+    private func renderInitialState(state: ViewModel.Initial) {
+        submitFeedbackButton.isEnabled = true
         
+        submitFeedbackAction = Target { [unowned self] _ in
+            self.collectFeedback()
+            if let feedback = self.feedback {
+                state.submit(feedback)
+            }
+        }
+    }
+    
+    private func renderWaitingState() {
+        waitingIndicator.startAnimating()
+        errorView.isHidden = true
+        submitFeedbackButton.isEnabled = false
     }
     
     private func renderFailureState(state: ViewModel.Failure) {
+        waitingIndicator.stopAnimating()
+        errorView.isHidden = false
+        errorMessage.text = state.message
+        submitFeedbackButton.isEnabled = true
         
+        submitFeedbackAction = Target { [unowned self] _ in
+            self.collectFeedback()
+            if let feedback = self.feedback {
+                state.submit(feedback)
+            }
+        }
     }
     
     private func renderSuccessState() {
+        waitingIndicator.stopAnimating()
+        errorView.isHidden = true
         
+        performSegue(withIdentifier: "thankYou", sender: self)
     }
 }

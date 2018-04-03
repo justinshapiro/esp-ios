@@ -13,8 +13,6 @@
 		C5076FE61F9871C400B93828 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5076FE41F9871C400B93828 /* Main.storyboard */; };
 		C5076FE81F9871C400B93828 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5076FE71F9871C400B93828 /* Assets.xcassets */; };
 		C5076FEB1F9871C400B93828 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5076FE91F9871C400B93828 /* LaunchScreen.storyboard */; };
-		C5076FF61F9871C400B93828 /* esp_mobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5076FF51F9871C400B93828 /* esp_mobileTests.swift */; };
-		C50770011F9871C400B93828 /* esp_mobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50770001F9871C400B93828 /* esp_mobileUITests.swift */; };
 		C5117F191FB6F70500A53D22 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5117F181FB6F70500A53D22 /* CreateAccountViewController.swift */; };
 		C5117F1B1FB6F71300A53D22 /* CreateAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5117F1A1FB6F71300A53D22 /* CreateAccountCoordinator.swift */; };
 		C533A23C1FAF1E3D007CF431 /* AddContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C533A23B1FAF1E3D007CF431 /* AddContactCoordinator.swift */; };
@@ -35,6 +33,7 @@
 		C543B0A11FB2A37800F33F6C /* GiveLocationInfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C543B0A01FB2A37800F33F6C /* GiveLocationInfoCoordinator.swift */; };
 		C550C3E01FAEF8C100A1D0F7 /* EmergencyContactsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C550C3DF1FAEF8C100A1D0F7 /* EmergencyContactsCoordinator.swift */; };
 		C550C3E21FAEFFED00A1D0F7 /* EmergencyContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C550C3E11FAEFFED00A1D0F7 /* EmergencyContactsViewController.swift */; };
+		C55D3A2D2071FBB60080EA9C /* ESPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55D3A2C2071FBB60080EA9C /* ESPTests.swift */; };
 		C55FA97A1FA7DEA2000E7B86 /* PopoutMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55FA9791FA7DEA2000E7B86 /* PopoutMenuViewController.swift */; };
 		C55FA97D1FA7DED2000E7B86 /* PopoutMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55FA97C1FA7DED2000E7B86 /* PopoutMenuCoordinator.swift */; };
 		C55FA97F1FA81756000E7B86 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55FA97E1FA81755000E7B86 /* ProfileViewController.swift */; };
@@ -52,6 +51,7 @@
 		C5796B9C1FB4012E00A5C233 /* LogOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5796B9B1FB4012E00A5C233 /* LogOutViewController.swift */; };
 		C584397720686FF900311545 /* AlertGroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C584397620686FF900311545 /* AlertGroupsViewController.swift */; };
 		C584397B2069CDD900311545 /* AlertGroupsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C584397A2069CDD900311545 /* AlertGroupsCoordinator.swift */; };
+		C584397D2070283F00311545 /* FeedbackProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C584397C2070283F00311545 /* FeedbackProtocol.swift */; };
 		C58B62D71FB848A0001E8BC7 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58B62D61FB848A0001E8BC7 /* Target.swift */; };
 		C5A14E16205CD1EF008C5B8E /* ProvideFeedbackPage2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A14E15205CD1EF008C5B8E /* ProvideFeedbackPage2ViewController.swift */; };
 		C5A14E1A205CE1F1008C5B8E /* ProvideFeedbackPage3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A14E19205CE1F1008C5B8E /* ProvideFeedbackPage3ViewController.swift */; };
@@ -70,14 +70,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C5076FF21F9871C400B93828 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C5076FD51F9871C400B93828 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C5076FDC1F9871C400B93828;
-			remoteInfo = "esp-mobile";
-		};
-		C5076FFD1F9871C400B93828 /* PBXContainerItemProxy */ = {
+		C55D3A2F2071FBB60080EA9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C5076FD51F9871C400B93828 /* Project object */;
 			proxyType = 1;
@@ -110,12 +103,6 @@
 		C5076FE71F9871C400B93828 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5076FEA1F9871C400B93828 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C5076FEC1F9871C400B93828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C5076FF11F9871C400B93828 /* esp-mobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "esp-mobileTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5076FF51F9871C400B93828 /* esp_mobileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = esp_mobileTests.swift; sourceTree = "<group>"; };
-		C5076FF71F9871C400B93828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C5076FFC1F9871C400B93828 /* esp-mobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "esp-mobileUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C50770001F9871C400B93828 /* esp_mobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = esp_mobileUITests.swift; sourceTree = "<group>"; };
-		C50770021F9871C400B93828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5117F181FB6F70500A53D22 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		C5117F1A1FB6F71300A53D22 /* CreateAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountCoordinator.swift; sourceTree = "<group>"; };
 		C533A23B1FAF1E3D007CF431 /* AddContactCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactCoordinator.swift; sourceTree = "<group>"; };
@@ -136,6 +123,9 @@
 		C543B0A01FB2A37800F33F6C /* GiveLocationInfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiveLocationInfoCoordinator.swift; sourceTree = "<group>"; };
 		C550C3DF1FAEF8C100A1D0F7 /* EmergencyContactsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyContactsCoordinator.swift; sourceTree = "<group>"; };
 		C550C3E11FAEFFED00A1D0F7 /* EmergencyContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyContactsViewController.swift; sourceTree = "<group>"; };
+		C55D3A2A2071FBB60080EA9C /* ESPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ESPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C55D3A2C2071FBB60080EA9C /* ESPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESPTests.swift; sourceTree = "<group>"; };
+		C55D3A2E2071FBB60080EA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C55FA9791FA7DEA2000E7B86 /* PopoutMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoutMenuViewController.swift; sourceTree = "<group>"; };
 		C55FA97C1FA7DED2000E7B86 /* PopoutMenuCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoutMenuCoordinator.swift; sourceTree = "<group>"; };
 		C55FA97E1FA81755000E7B86 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +143,7 @@
 		C5796B9B1FB4012E00A5C233 /* LogOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutViewController.swift; sourceTree = "<group>"; };
 		C584397620686FF900311545 /* AlertGroupsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertGroupsViewController.swift; sourceTree = "<group>"; };
 		C584397A2069CDD900311545 /* AlertGroupsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertGroupsCoordinator.swift; sourceTree = "<group>"; };
+		C584397C2070283F00311545 /* FeedbackProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackProtocol.swift; sourceTree = "<group>"; };
 		C58B62D61FB848A0001E8BC7 /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
 		C5A14E15205CD1EF008C5B8E /* ProvideFeedbackPage2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvideFeedbackPage2ViewController.swift; sourceTree = "<group>"; };
 		C5A14E19205CE1F1008C5B8E /* ProvideFeedbackPage3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvideFeedbackPage3ViewController.swift; sourceTree = "<group>"; };
@@ -182,14 +173,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C5076FEE1F9871C400B93828 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5076FF91F9871C400B93828 /* Frameworks */ = {
+		C55D3A272071FBB60080EA9C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -214,8 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				C5076FDF1F9871C400B93828 /* esp-mobile */,
-				C5076FF41F9871C400B93828 /* esp-mobileTests */,
-				C5076FFF1F9871C400B93828 /* esp-mobileUITests */,
+				C55D3A2B2071FBB60080EA9C /* ESPTests */,
 				C5076FDE1F9871C400B93828 /* Products */,
 				C5399EF61FA84BFB003C4A1B /* Frameworks */,
 				8263DECAF478353B918C662E /* Pods */,
@@ -226,8 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				C5076FDD1F9871C400B93828 /* ESP.app */,
-				C5076FF11F9871C400B93828 /* esp-mobileTests.xctest */,
-				C5076FFC1F9871C400B93828 /* esp-mobileUITests.xctest */,
+				C55D3A2A2071FBB60080EA9C /* ESPTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -235,54 +217,21 @@
 		C5076FDF1F9871C400B93828 /* esp-mobile */ = {
 			isa = PBXGroup;
 			children = (
-				C584397520686FD700311545 /* Alert Group Scene */,
+				C564C3C22070E63E0048B016 /* Common */,
+				C564C3C12070E6200048B016 /* Login */,
+				C564C3C02070E6070048B016 /* Edit Profile */,
+				C564C3BF2070E5D10048B016 /* Saftey-Zones */,
+				C564C3BE2070E5A70048B016 /* Emergency Contacts */,
+				C564C3BD2070E5750048B016 /* Custom Locations */,
 				C5DC2ED2205A055800EFA1BB /* Feedback */,
-				C53FAAD31FC51E0E00914A46 /* Location Detail Scene */,
-				C5A3E6D11FC29B7A009E64E6 /* Edit Contact Scene */,
-				C53B35601FC2746800DB7648 /* Delete Account Scene */,
-				C53B35591FC272B100DB7648 /* Change Password Scene */,
-				C5117F171FB6F6EF00A53D22 /* Create Account Scene */,
-				C5796B9A1FB4011C00A5C233 /* Log Out Scene */,
-				C5796B951FB3FDA600A5C233 /* Non-Alertable Locations Scene */,
-				C543B09D1FB2A34A00F33F6C /* Give Location Info Scene */,
-				C543B0981FB2A0E200F33F6C /* Add Location Scene */,
-				C5A150361FB2965700373E08 /* Custom Locations Scene */,
-				C533A23D1FAF1F16007CF431 /* Manual Contact Scene */,
-				C5F93D801FAF08F800EA6067 /* Add Contact Scene */,
-				C550C3DC1FAEF88900A1D0F7 /* Emergency Contacts Scene */,
-				C56868431FAAC35B00DE6566 /* Resources */,
-				C55FA9801FA8175C000E7B86 /* Profile Scene */,
-				C55FA97B1FA7DEBD000E7B86 /* Popout Menu Scene */,
-				C57774221FA3145800886021 /* Safety Zones Scene */,
-				C577741F1FA29FAF00886021 /* Login Scene */,
+				C5796B951FB3FDA600A5C233 /* Non-Alertable Locations */,
 				C5076FE01F9871C400B93828 /* AppDelegate.swift */,
 				C5076FE71F9871C400B93828 /* Assets.xcassets */,
-				C5076FE41F9871C400B93828 /* Main.storyboard */,
 				C5076FE91F9871C400B93828 /* LaunchScreen.storyboard */,
+				C5076FE41F9871C400B93828 /* Main.storyboard */,
 				C5076FEC1F9871C400B93828 /* Info.plist */,
-				C5CD81671FB810D000C64CFA /* ESPMobileAPI.swift */,
-				C58B62D61FB848A0001E8BC7 /* Target.swift */,
-				C53B6B0320675D1800C31858 /* Extensions.swift */,
 			);
 			path = "esp-mobile";
-			sourceTree = "<group>";
-		};
-		C5076FF41F9871C400B93828 /* esp-mobileTests */ = {
-			isa = PBXGroup;
-			children = (
-				C5076FF51F9871C400B93828 /* esp_mobileTests.swift */,
-				C5076FF71F9871C400B93828 /* Info.plist */,
-			);
-			path = "esp-mobileTests";
-			sourceTree = "<group>";
-		};
-		C5076FFF1F9871C400B93828 /* esp-mobileUITests */ = {
-			isa = PBXGroup;
-			children = (
-				C50770001F9871C400B93828 /* esp_mobileUITests.swift */,
-				C50770021F9871C400B93828 /* Info.plist */,
-			);
-			path = "esp-mobileUITests";
 			sourceTree = "<group>";
 		};
 		C5117F171FB6F6EF00A53D22 /* Create Account Scene */ = {
@@ -366,9 +315,19 @@
 			path = "Emergency Contacts Scene";
 			sourceTree = "<group>";
 		};
+		C55D3A2B2071FBB60080EA9C /* ESPTests */ = {
+			isa = PBXGroup;
+			children = (
+				C55D3A2C2071FBB60080EA9C /* ESPTests.swift */,
+				C55D3A2E2071FBB60080EA9C /* Info.plist */,
+			);
+			path = ESPTests;
+			sourceTree = "<group>";
+		};
 		C55FA97B1FA7DEBD000E7B86 /* Popout Menu Scene */ = {
 			isa = PBXGroup;
 			children = (
+				C56868441FAAC38900DE6566 /* menu_config.json */,
 				C55FA9791FA7DEA2000E7B86 /* PopoutMenuViewController.swift */,
 				C55FA97C1FA7DED2000E7B86 /* PopoutMenuCoordinator.swift */,
 			);
@@ -384,12 +343,66 @@
 			path = "Profile Scene";
 			sourceTree = "<group>";
 		};
-		C56868431FAAC35B00DE6566 /* Resources */ = {
+		C564C3BD2070E5750048B016 /* Custom Locations */ = {
 			isa = PBXGroup;
 			children = (
-				C56868441FAAC38900DE6566 /* menu_config.json */,
+				C543B0981FB2A0E200F33F6C /* Add Location Scene */,
+				C5A150361FB2965700373E08 /* Custom Locations Scene */,
+				C543B09D1FB2A34A00F33F6C /* Give Location Info Scene */,
 			);
-			path = Resources;
+			path = "Custom Locations";
+			sourceTree = "<group>";
+		};
+		C564C3BE2070E5A70048B016 /* Emergency Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				C5F93D801FAF08F800EA6067 /* Add Contact Scene */,
+				C550C3DC1FAEF88900A1D0F7 /* Emergency Contacts Scene */,
+				C533A23D1FAF1F16007CF431 /* Manual Contact Scene */,
+				C5A3E6D11FC29B7A009E64E6 /* Edit Contact Scene */,
+				C584397520686FD700311545 /* Alert Group Scene */,
+			);
+			path = "Emergency Contacts";
+			sourceTree = "<group>";
+		};
+		C564C3BF2070E5D10048B016 /* Saftey-Zones */ = {
+			isa = PBXGroup;
+			children = (
+				C53FAAD31FC51E0E00914A46 /* Location Detail Scene */,
+				C5796B9A1FB4011C00A5C233 /* Log Out Scene */,
+				C55FA97B1FA7DEBD000E7B86 /* Popout Menu Scene */,
+				C57774221FA3145800886021 /* Safety Zones Scene */,
+			);
+			path = "Saftey-Zones";
+			sourceTree = "<group>";
+		};
+		C564C3C02070E6070048B016 /* Edit Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C55FA9801FA8175C000E7B86 /* Profile Scene */,
+				C53B35591FC272B100DB7648 /* Change Password Scene */,
+				C53B35601FC2746800DB7648 /* Delete Account Scene */,
+			);
+			path = "Edit Profile";
+			sourceTree = "<group>";
+		};
+		C564C3C12070E6200048B016 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				C577741F1FA29FAF00886021 /* Login Scene */,
+				C5117F171FB6F6EF00A53D22 /* Create Account Scene */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		C564C3C22070E63E0048B016 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				C5CD81671FB810D000C64CFA /* ESPMobileAPI.swift */,
+				C53B6B0320675D1800C31858 /* Extensions.swift */,
+				C58B62D61FB848A0001E8BC7 /* Target.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		C577741F1FA29FAF00886021 /* Login Scene */ = {
@@ -414,13 +427,13 @@
 			path = "Safety Zones Scene";
 			sourceTree = "<group>";
 		};
-		C5796B951FB3FDA600A5C233 /* Non-Alertable Locations Scene */ = {
+		C5796B951FB3FDA600A5C233 /* Non-Alertable Locations */ = {
 			isa = PBXGroup;
 			children = (
 				C5796B961FB3FDF700A5C233 /* NonAlertableLocationsViewController.swift */,
 				C5796B981FB3FE2400A5C233 /* NonAlertableLocationsCoordinator.swift */,
 			);
-			path = "Non-Alertable Locations Scene";
+			path = "Non-Alertable Locations";
 			sourceTree = "<group>";
 		};
 		C5796B9A1FB4011C00A5C233 /* Log Out Scene */ = {
@@ -470,6 +483,7 @@
 				C5E3D300205DAD9800CF04E9 /* ProvideFeedbackPage5ViewController.swift */,
 				C5E3D2FE205DAC6D00CF04E9 /* ProvideFeedbackPage6ViewController.swift */,
 				C5E3D304205DBB3000CF04E9 /* ProvideFeedbackEndViewController.swift */,
+				C584397C2070283F00311545 /* FeedbackProtocol.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -507,41 +521,23 @@
 			productReference = C5076FDD1F9871C400B93828 /* ESP.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C5076FF01F9871C400B93828 /* esp-mobileTests */ = {
+		C55D3A292071FBB60080EA9C /* ESPTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C50770081F9871C400B93828 /* Build configuration list for PBXNativeTarget "esp-mobileTests" */;
+			buildConfigurationList = C55D3A332071FBB60080EA9C /* Build configuration list for PBXNativeTarget "ESPTests" */;
 			buildPhases = (
-				C5076FED1F9871C400B93828 /* Sources */,
-				C5076FEE1F9871C400B93828 /* Frameworks */,
-				C5076FEF1F9871C400B93828 /* Resources */,
+				C55D3A262071FBB60080EA9C /* Sources */,
+				C55D3A272071FBB60080EA9C /* Frameworks */,
+				C55D3A282071FBB60080EA9C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C5076FF31F9871C400B93828 /* PBXTargetDependency */,
+				C55D3A302071FBB60080EA9C /* PBXTargetDependency */,
 			);
-			name = "esp-mobileTests";
-			productName = "esp-mobileTests";
-			productReference = C5076FF11F9871C400B93828 /* esp-mobileTests.xctest */;
+			name = ESPTests;
+			productName = ESPTests;
+			productReference = C55D3A2A2071FBB60080EA9C /* ESPTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		C5076FFB1F9871C400B93828 /* esp-mobileUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C507700B1F9871C400B93828 /* Build configuration list for PBXNativeTarget "esp-mobileUITests" */;
-			buildPhases = (
-				C5076FF81F9871C400B93828 /* Sources */,
-				C5076FF91F9871C400B93828 /* Frameworks */,
-				C5076FFA1F9871C400B93828 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C5076FFE1F9871C400B93828 /* PBXTargetDependency */,
-			);
-			name = "esp-mobileUITests";
-			productName = "esp-mobileUITests";
-			productReference = C5076FFC1F9871C400B93828 /* esp-mobileUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -549,8 +545,8 @@
 		C5076FD51F9871C400B93828 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0900;
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Justin Shapiro";
 				TargetAttributes = {
 					C5076FDC1F9871C400B93828 = {
@@ -565,13 +561,8 @@
 							};
 						};
 					};
-					C5076FF01F9871C400B93828 = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = C5076FDC1F9871C400B93828;
-					};
-					C5076FFB1F9871C400B93828 = {
-						CreatedOnToolsVersion = 9.0;
+					C55D3A292071FBB60080EA9C = {
+						CreatedOnToolsVersion = 9.3;
 						ProvisioningStyle = Automatic;
 						TestTargetID = C5076FDC1F9871C400B93828;
 					};
@@ -591,8 +582,7 @@
 			projectRoot = "";
 			targets = (
 				C5076FDC1F9871C400B93828 /* esp-mobile */,
-				C5076FF01F9871C400B93828 /* esp-mobileTests */,
-				C5076FFB1F9871C400B93828 /* esp-mobileUITests */,
+				C55D3A292071FBB60080EA9C /* ESPTests */,
 			);
 		};
 /* End PBXProject section */
@@ -610,14 +600,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C5076FEF1F9871C400B93828 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5076FFA1F9871C400B93828 /* Resources */ = {
+		C55D3A282071FBB60080EA9C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -656,7 +639,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -726,6 +709,7 @@
 				C53B6B0820677E9500C31858 /* LogOutCoordinator.swift in Sources */,
 				C584397720686FF900311545 /* AlertGroupsViewController.swift in Sources */,
 				C5D6006D1FA05D2E00FC39E9 /* LoginSceneViewController.swift in Sources */,
+				C584397D2070283F00311545 /* FeedbackProtocol.swift in Sources */,
 				C550C3E01FAEF8C100A1D0F7 /* EmergencyContactsCoordinator.swift in Sources */,
 				C57819021FB95F1700A8EB05 /* AnnotationView.swift in Sources */,
 				C5E3D301205DAD9800CF04E9 /* ProvideFeedbackPage5ViewController.swift in Sources */,
@@ -744,34 +728,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C5076FED1F9871C400B93828 /* Sources */ = {
+		C55D3A262071FBB60080EA9C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5076FF61F9871C400B93828 /* esp_mobileTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5076FF81F9871C400B93828 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C50770011F9871C400B93828 /* esp_mobileUITests.swift in Sources */,
+				C55D3A2D2071FBB60080EA9C /* ESPTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C5076FF31F9871C400B93828 /* PBXTargetDependency */ = {
+		C55D3A302071FBB60080EA9C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C5076FDC1F9871C400B93828 /* esp-mobile */;
-			targetProxy = C5076FF21F9871C400B93828 /* PBXContainerItemProxy */;
-		};
-		C5076FFE1F9871C400B93828 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C5076FDC1F9871C400B93828 /* esp-mobile */;
-			targetProxy = C5076FFD1F9871C400B93828 /* PBXContainerItemProxy */;
+			targetProxy = C55D3A2F2071FBB60080EA9C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -809,6 +780,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -816,6 +788,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -866,6 +839,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -873,6 +847,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -908,8 +883,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9W4EAV7NE7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "esp-mobile/Info.plist";
@@ -917,9 +894,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ESP.esp-mobile";
 				PRODUCT_NAME = ESP;
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -929,8 +908,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9W4EAV7NE7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "esp-mobile/Info.plist";
@@ -938,75 +919,47 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ESP.esp-mobile";
 				PRODUCT_NAME = ESP;
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
-		C50770091F9871C400B93828 /* Debug */ = {
+		C55D3A312071FBB60080EA9C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9W4EAV7NE7;
-				INFOPLIST_FILE = "esp-mobileTests/Info.plist";
+				INFOPLIST_FILE = ESPTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ESP.esp-mobileTests";
+				PRODUCT_BUNDLE_IDENTIFIER = ESP.ESPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/esp-mobile.app/esp-mobile";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ESP.app/ESP";
 			};
 			name = Debug;
 		};
-		C507700A1F9871C400B93828 /* Release */ = {
+		C55D3A322071FBB60080EA9C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9W4EAV7NE7;
-				INFOPLIST_FILE = "esp-mobileTests/Info.plist";
+				INFOPLIST_FILE = ESPTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ESP.esp-mobileTests";
+				PRODUCT_BUNDLE_IDENTIFIER = ESP.ESPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/esp-mobile.app/esp-mobile";
-			};
-			name = Release;
-		};
-		C507700C1F9871C400B93828 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9W4EAV7NE7;
-				INFOPLIST_FILE = "esp-mobileUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ESP.esp-mobileUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "esp-mobile";
-			};
-			name = Debug;
-		};
-		C507700D1F9871C400B93828 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9W4EAV7NE7;
-				INFOPLIST_FILE = "esp-mobileUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ESP.esp-mobileUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "esp-mobile";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ESP.app/ESP";
 			};
 			name = Release;
 		};
@@ -1031,20 +984,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C50770081F9871C400B93828 /* Build configuration list for PBXNativeTarget "esp-mobileTests" */ = {
+		C55D3A332071FBB60080EA9C /* Build configuration list for PBXNativeTarget "ESPTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C50770091F9871C400B93828 /* Debug */,
-				C507700A1F9871C400B93828 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C507700B1F9871C400B93828 /* Build configuration list for PBXNativeTarget "esp-mobileUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C507700C1F9871C400B93828 /* Debug */,
-				C507700D1F9871C400B93828 /* Release */,
+				C55D3A312071FBB60080EA9C /* Debug */,
+				C55D3A322071FBB60080EA9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

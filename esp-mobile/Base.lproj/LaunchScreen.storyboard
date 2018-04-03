@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,18 +17,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="esp-logo-black" translatesAutoresizingMaskIntoConstraints="NO" id="trR-AG-XdD">
-                                <rect key="frame" x="23" y="179.5" width="328" height="328"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="328" id="SU0-kP-35X"/>
-                                    <constraint firstAttribute="height" constant="328" id="kCp-Cm-fjo"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="esp-logo-black" translatesAutoresizingMaskIntoConstraints="NO" id="QdB-o9-fJt">
+                                <rect key="frame" x="27" y="184" width="320" height="320"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="trR-AG-XdD" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="AbF-I8-f91"/>
-                            <constraint firstItem="trR-AG-XdD" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="RBw-zQ-wss"/>
+                            <constraint firstItem="QdB-o9-fJt" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="3xp-dq-hZC"/>
+                            <constraint firstItem="QdB-o9-fJt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="164" id="EgG-2K-zKh"/>
+                            <constraint firstItem="QdB-o9-fJt" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="MVo-m5-aYn"/>
+                            <constraint firstItem="QdB-o9-fJt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="27" id="PTg-s9-OLe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

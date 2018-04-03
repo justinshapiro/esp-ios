@@ -14,5 +14,20 @@ final class ProvideFeedbackCoordinator: NSObject {
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()
+        viewController.render(state: .initial(.init(submit: { self.submitFeedback($0) })))
+    }
+    
+    private func submitFeedback(_ feedback: Feedback) {
+        viewController.render(state: .waiting)
+        
+        ESPMobileAPI.sendFeedback(feedback: feedback) {
+            switch $0 {
+            case .successWithData: break
+            case .success:
+                self.viewController.render(state: .success)
+            case .failure(let failure):
+                self.viewController.render(state: .failure(.init(message: failure.message, submit: { self.submitFeedback($0) })))
+            }
+        }
     }
 }

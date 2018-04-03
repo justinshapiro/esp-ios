@@ -9,6 +9,9 @@
 import UIKit
 
 final class ProvideFeedbackEndViewController: UIViewController {
+    
+    // MARK: IBOutlets
+    
     @IBAction private func exitRequested(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindFromThankYou", sender: self)
     }
@@ -21,5 +24,12 @@ final class ProvideFeedbackEndViewController: UIViewController {
         didSet {
             exitButton.layer.cornerRadius = 5
         }
+    }
+    
+    // MARK: Overrides
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UserDefaults.standard.set(7, forKey: "feedbackPosition")
     }
 }

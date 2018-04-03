@@ -47,6 +47,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         window?.makeKeyAndVisible()
         
+        // show the splash screen for a fixed amount of time
+        Thread.sleep(forTimeInterval: 3)
+        
         return true
     }
     
