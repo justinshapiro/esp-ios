@@ -1,0 +1,38 @@
+[
+    [
+        {
+            "Label": "Profile",
+            "Icon": "person_icon_bold_orange",
+            "Segue": "profile"
+        },
+        {
+            "Label": "Emergency Contacts",
+            "Icon": "phone_icon_orange",
+            "Segue": "emergencyContacts"
+        },
+        {    
+            "Label": "Custom Locations",
+            "Icon": "location_marker_orange",
+            "Segue": "customLocations"
+        },
+        {
+            "Label": "Non-Alertable Locations",
+            "Icon": "alert_icon_orange",
+            "Segue": "altertableLocations"
+        }
+    ],
+    [
+        {
+            "Label": "Log Out",
+            "Icon": "power_icon_orange",
+            "Segue": "showLogOut"
+        }
+    ],
+    [
+        {
+            "Label": "Feedback",
+            "Icon": "feedback",
+            "Segue": "showFeedback"
+        }
+    ]
+]
