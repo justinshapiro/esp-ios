@@ -94,7 +94,7 @@ final class EmergencyContactsViewController: UIViewController {
             waitingIndicator.startAnimating()
         } else if segue.identifier == "manageAlertGroups" {
             let viewController = segue.destination as! AlertGroupsViewController
-            viewController.contactsForGroup = contactsForCell.compactMap { if $0["group_id"]! != nil { return $0 } else { return nil } }
+            viewController.contactsForGroup = contactsForCell.flatMap { if $0["group_id"]! != nil { return $0 } else { return nil } }
             viewController.currentContacts = contactsForCell.filter { currentContact in viewController.contactsForGroup.index { $0["id"]!! == currentContact["id"]!! } == nil }
         }
     }

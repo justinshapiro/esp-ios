@@ -24,8 +24,8 @@ final class PopoutMenuCoordinator: NSObject {
     
         let deserializedConfig = try! JSONSerialization.jsonObject(with: configData!, options: .allowFragments) as! [[Any]]
         
-        let expectedConfig: [[[String: String]]] = deserializedConfig.compactMap {
-            $0.compactMap { $0 as? [String: String] }
+        let expectedConfig: [[[String: String]]] = deserializedConfig.flatMap {
+            $0.flatMap { $0 as? [String: String] }
         }
         
         return expectedConfig

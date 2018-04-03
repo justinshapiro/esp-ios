@@ -24,7 +24,7 @@ class AlertGroupsCoordinator: NSObject {
             switch $0 {
                 case .successWithData: break
             case .success:
-                ESPMobileAPI.addContactGroup(contactIDs: contactsForGroup.compactMap { $0["id"]! ?? nil }) {
+                ESPMobileAPI.addContactGroup(contactIDs: contactsForGroup.flatMap { $0["id"]! ?? nil }) {
                     switch $0 {
                     case .successWithData: break
                     case .success:
