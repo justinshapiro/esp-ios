@@ -161,7 +161,7 @@ final class ManualContactViewController: UIViewController {
     private func renderSuccessState() {
         dismiss(animated: true)
         
-        let viewController = presentingViewController!.childViewControllers[2] as! AddContactViewController
+        guard let viewController = presentingViewController!.childViewControllers[2] as? AddContactViewController else { return }
         viewController.modalSuccessTransition()
     }
 }

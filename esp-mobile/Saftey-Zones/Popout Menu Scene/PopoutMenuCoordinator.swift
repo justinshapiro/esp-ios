@@ -18,16 +18,20 @@ final class PopoutMenuCoordinator: NSObject {
     }
     
     private func populateCellInfo() -> [[[String: String]]] {
-        let configPath = Bundle.main.path(forResource: "menu_config", ofType: "json")
-        
-        let configData = try! String(contentsOfFile: configPath!, encoding: .utf8).data(using: .utf8)
-    
-        let deserializedConfig = try! JSONSerialization.jsonObject(with: configData!, options: .allowFragments) as! [[Any]]
-        
-        let expectedConfig: [[[String: String]]] = deserializedConfig.flatMap {
-            $0.flatMap { $0 as? [String: String] }
+        guard let configPath = Bundle.main.path(forResource: "menu_config", ofType: "json") else { return [] }
+        guard let configData = try? String(contentsOfFile: configPath, encoding: .utf8).data(using: .utf8) else { return [] }
+        if let configData = configData {
+            guard let deserializedConfig = try? JSONSerialization.jsonObject(with: configData, options: .allowFragments) as? [[Any]] else { return [] }
+            
+            if let deserializedConfig = deserializedConfig {
+                let expectedConfig: [[[String: String]]] = deserializedConfig.flatMap {
+                    $0.flatMap { $0 as? [String: String] }
+                }
+                
+                return expectedConfig
+            }
         }
         
-        return expectedConfig
+        return []
     }
 }

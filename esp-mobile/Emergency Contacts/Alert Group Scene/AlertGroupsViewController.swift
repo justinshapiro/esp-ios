@@ -144,10 +144,10 @@ final class AlertGroupsViewController: UIViewController {
             collectionView.performBatchUpdates({
                 if collectionView === self.groupCollectionView {
                     self.contactsForGroup.remove(at: sourceIndexPath.row)
-                    self.contactsForGroup.insert(item.dragItem.localObject as! [String: String?], at: actualDestinationIndexPath.row)
+                    self.contactsForGroup.insert(item.dragItem.localObject as? [String: String?] ?? [:], at: actualDestinationIndexPath.row)
                 } else {
                     self.currentContacts.remove(at: sourceIndexPath.row)
-                    self.currentContacts.insert(item.dragItem.localObject as! [String: String?], at: actualDestinationIndexPath.row)
+                    self.currentContacts.insert(item.dragItem.localObject as? [String: String?] ?? [:], at: actualDestinationIndexPath.row)
                 }
                 
                 collectionView.deleteItems(at: [sourceIndexPath])
@@ -160,7 +160,7 @@ final class AlertGroupsViewController: UIViewController {
     
     private func copyItems(in collectionView: UICollectionView, coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath) {
         collectionView.performBatchUpdates({
-            let draggedItem = coordinator.items[0].dragItem.localObject as! [String: String?]
+            let draggedItem = coordinator.items[0].dragItem.localObject as? [String: String?] ?? [:]
             let indexPath = IndexPath(row: destinationIndexPath.row, section: destinationIndexPath.section)
             
             if collectionView === self.groupCollectionView {
@@ -261,6 +261,8 @@ final class AlertGroupsViewController: UIViewController {
     private func renderSoftSuccessState() {
         waitingIndicator.stopAnimating()
         errorView.isHidden = true
+        groupEnabledSwitch.isEnabled = true
+        saveButton.isEnabled = true
     }
     
     private func renderSuccessState() {

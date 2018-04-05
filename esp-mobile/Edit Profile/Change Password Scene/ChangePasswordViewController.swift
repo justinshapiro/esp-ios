@@ -160,7 +160,7 @@ final class ChangePasswordViewController: UIViewController {
     private func renderSuccessState() {
         dismiss(animated: true)
 
-        let viewController = presentingViewController!.childViewControllers[1] as! ProfileViewController
+        guard let viewController = presentingViewController!.childViewControllers[1] as? ProfileViewController else { return }
         viewController.modalSuccessTransition()
     }
 }

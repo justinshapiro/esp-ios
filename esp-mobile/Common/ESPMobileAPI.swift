@@ -41,11 +41,9 @@ public struct Location {
             let floatingDigits = Array(floatComponenets[1])
             
             var limitedGeoLocation = floatComponenets[0] + "."
-            for (i, digit) in floatingDigits.enumerated() {
+            floatingDigits.enumerated().forEach { i, digit in
                 if i < limit {
                     limitedGeoLocation += String(digit)
-                } else {
-                    break
                 }
             }
             
@@ -61,15 +59,15 @@ public struct Location {
         
         var capitalizedWord: String = ""
         var shouldCapitalize = true
-        for letter in wordEnumerated {
+        wordEnumerated.forEach {
             if shouldCapitalize {
-                capitalizedWord += String(letter).uppercased()
+                capitalizedWord += String($0).uppercased()
                 shouldCapitalize = false
-            } else if letter == "_" {
+            } else if $0 == "_" {
                 shouldCapitalize = true
                 capitalizedWord += " "
             } else {
-                capitalizedWord += String(letter)
+                capitalizedWord += String($0)
             }
         }
         
@@ -94,7 +92,7 @@ public struct Contact {
     
     static func formatPhoneNumber(phoneNumber: String) -> String {
         var formattedPhoneNumber: String = ""
-        for (i, digit) in phoneNumber.enumerated() {
+        phoneNumber.enumerated().forEach { i, digit in
             if i == 0 {
                 formattedPhoneNumber += "(\(digit)"
             } else if i == 3 {
@@ -243,9 +241,9 @@ public final class ESPMobileAPI {
     }
     
     private static func parseJsonResponse(_ response: Data?) -> ESPJsonResponse {
-        if response != nil {
+        if let response = response {
             do {
-                if let jsonResponse = try JSONSerialization.jsonObject(with: response!, options: .allowFragments) as? [String: Any] {
+                if let jsonResponse = try JSONSerialization.jsonObject(with: response, options: .allowFragments) as? [String: Any] {
                     if let payload = jsonResponse["ESP-Response"] {
                         return .espSuccess(payload)
                     } else {
@@ -275,16 +273,16 @@ public final class ESPMobileAPI {
     private static let connectionError = "Could not connect to server. Please check your Internet connection"
     
     private static func geoJsonToLocation(geoJson: [String: Any]) -> Location {
-        let geometry = geoJson["geometry"] as! [String: Any]
-        let coordinates = geometry["coordinates"] as! [Double]
+        let geometry = geoJson["geometry"] as? [String: Any] ?? [:]
+        let coordinates = geometry["coordinates"] as? [Double] ?? [-1, -1]
         let latitude = coordinates[0]
         let longitude = coordinates[1]
         
-        let properties = geoJson["properties"] as! [String: Any]
-        let name = properties["name"]! as! String
-        let address = properties["address"]! as! String
-        let category = properties["category"]! as! String
-        let locationID = properties["location_id"]! as! String
+        let properties = geoJson["properties"] as? [String: Any] ?? [:]
+        let name = properties["name"] as? String ?? ""
+        let address = properties["address"] as? String ?? ""
+        let category = properties["category"] as? String ?? ""
+        let locationID = properties["location_id"] as? String ?? ""
         let phoneNumber = properties["phone_number"] as? String
         let photoRef = properties["photo_ref"] as? String
         
@@ -313,11 +311,11 @@ public final class ESPMobileAPI {
         var locations: [Location] = []
         
         jsonLocations.forEach {
-            let name = $0["name"] as! String
-            let locationID = $0["location_id"] as! String
-            let latitude = $0["latitude"] as! Double
-            let longitude = $0["longitude"] as! Double
-            let alertable = $0["alertable"] as! Bool ? "true" : "false"
+            let name = $0["name"] as? String ?? ""
+            let locationID = $0["location_id"] as? String ?? ""
+            let latitude = $0["latitude"] as? Double ?? -1
+            let longitude = $0["longitude"] as? Double ?? -1
+            let alertable = $0["alertable"] as? Bool ?? true ? "true" : "false"
             
             locations.append(Location(
                 latitude: latitude,
@@ -337,11 +335,11 @@ public final class ESPMobileAPI {
     }
     
     private static func geoJsonToLocations(geoJson: [String: Any]) -> [Location] {
-        let features = (geoJson["GeoJson"]! as! [String: Any])["features"] as! [[String: Any]]
+        let features = (geoJson["GeoJson"] as? [String: Any])?["features"] as? [[String: Any]] ?? []
         
         var locations: [Location] = []
-        for feature in features {
-            locations.append(geoJsonToLocation(geoJson: feature))
+        features.forEach {
+            locations.append(geoJsonToLocation(geoJson: $0))
         }
         
         return locations
@@ -350,14 +348,14 @@ public final class ESPMobileAPI {
     private static func jsonToContacts(json: Any) -> [Contact] {
         var contacts: [Contact] = []
         
-        (json as! [Any]).forEach {
-            let contact = $0 as! [String: Any]
+        (json as? [Any])?.forEach {
+            let contact = $0 as? [String: Any] ?? [:]
             
             contacts.append(Contact(
-                id: contact["id"]! as? String,
-                name: contact["name"]! as! String,
-                phone: contact["phone"]! as! String,
-                groupID: contact["group_id"]! as? Int != nil ? "\(contact["group_id"]!)" : nil
+                id: contact["id"] as? String ?? "",
+                name: contact["name"] as? String ?? "",
+                phone: contact["phone"] as? String ?? "",
+                groupID: contact["group_id"] as? Int ?? nil != nil ? "\(contact["group_id"]!)" : nil
             ))
         }
         
@@ -376,17 +374,20 @@ public final class ESPMobileAPI {
             switch (parseJsonResponse($0.data)) {
             case .espSuccess(let payload):
                 // cache user ID
-                let espResponse = payload as! [String: String]
-                let loggedInUser = espResponse["user_id"]
-                UserDefaults.standard.set(loggedInUser, forKey: "loggedInUser")
+                let espResponse = payload as? [String: String]
+                if let loggedInUser = espResponse?["user_id"] {
+                    UserDefaults.standard.set(loggedInUser, forKey: "loggedInUser")
+                }
                 
                 // cache cookies
-                let headerFields = $0.response?.allHeaderFields as! [String: String]
+                let headerFields = $0.response?.allHeaderFields as? [String: String] ?? [:]
                 let url = $0.response?.url
                 let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url!)
                 var cookieArray = [[HTTPCookiePropertyKey: Any]]()
-                for cookie in cookies {
-                    cookieArray.append(cookie.properties!)
+                cookies.forEach {
+                    if let properties = $0.properties {
+                        cookieArray.append(properties)
+                    }
                 }
                 
                 UserDefaults.standard.set(cookieArray, forKey: "cookies")
@@ -440,7 +441,7 @@ public final class ESPMobileAPI {
         loadCookies()
         Alamofire.request(endpoint, method: .get, parameters: queryParameters, encoding: URLEncoding.queryString).responseJSON {
             switch (parseJsonResponse($0.data)) {
-            case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocations(geoJson: payload as! [String: Any]))))
+            case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocations(geoJson: payload as? [String: Any] ?? [:]))))
             case .espConnectionFailure(let failure): completion(.failure(.init(message: failure)))
             case .espLogicFailure: completion(.failure(.init(message: "An error occured retrieving safety-zone locations")))
             }
@@ -454,7 +455,7 @@ public final class ESPMobileAPI {
         loadCookies()
         Alamofire.request(endpoint, method: .get, encoding: URLEncoding.queryString).responseJSON {
             switch (parseJsonResponse($0.data)) {
-            case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocation(geoJson: payload as! [String: Any]))))
+            case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocation(geoJson: payload as? [String: Any] ?? [:]))))
             case .espConnectionFailure(let failure): completion(.failure(.init(message: failure)))
             case .espLogicFailure: completion(.failure(.init(message: "An error occured retrieving safety-zone location")))
             }
@@ -473,11 +474,11 @@ public final class ESPMobileAPI {
         Alamofire.request(endpoint, method: .get, encoding: URLEncoding.queryString).responseJSON {
             switch (parseJsonResponse($0.data)) {
             case .espSuccess(let payload):
-                let userInfo = (payload as! [Any])[0] as! [String: Any]
+                let userInfo = (payload as? [Any])?[0] as? [String: Any]
                 
-                let name = userInfo["name"]! as! String
-                let email = userInfo["email"]! as! String
-                let username = userInfo["username"]! as? String ?? ""
+                let name = userInfo?["name"] as? String ?? "Your Name"
+                let email = userInfo?["email"] as? String ?? "Your Email"
+                let username = userInfo?["username"] as? String ?? ""
                 
                 completion(.successWithData(.init(object: UserInfo(
                     name: name,
@@ -604,7 +605,7 @@ public final class ESPMobileAPI {
             
             Alamofire.request(endpoint, method: .get, parameters: queryParameters).responseJSON {
                 switch (parseJsonResponse($0.data)) {
-                case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocations(geoJson: payload as! [String: Any]))))
+                case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocations(geoJson: payload as? [String: Any] ?? [:]))))
                 case .espConnectionFailure(let failure): completion(.failure(.init(message: failure)))
                 case .espLogicFailure: completion(.failure(.init(message: "An error occured retrieving safety-zone locations")))
                 }
@@ -612,7 +613,7 @@ public final class ESPMobileAPI {
         } else {
             Alamofire.request(endpoint, method: .get).responseJSON {
                 switch (parseJsonResponse($0.data)) {
-                case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocations(geoJson: payload as! [String: Any]))))
+                case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocations(geoJson: payload as? [String: Any] ?? [:]))))
                 case .espConnectionFailure(let failure): completion(.failure(.init(message: failure)))
                 case .espLogicFailure: completion(.failure(.init(message: "An error occured retrieving safety-zone locations")))
                 }
@@ -627,7 +628,7 @@ public final class ESPMobileAPI {
         
         Alamofire.request(endpoint, method: .get).responseJSON {
             switch (parseJsonResponse($0.data)) {
-            case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocations(geoJson: payload as! [String: Any]))))
+            case .espSuccess(let payload): completion(.successWithData(.init(object: geoJsonToLocations(geoJson: payload as? [String: Any] ?? [:]))))
             case .espConnectionFailure(let failure): completion(.failure(.init(message: failure)))
             case .espLogicFailure: completion(.failure(.init(message: "An error occured retrieving custom locations")))
             }
@@ -809,9 +810,9 @@ public final class ESPMobileAPI {
         Alamofire.request(endpoint, method: .get).responseJSON {
             switch (parseJsonResponse($0.data)) {
             case .espSuccess(let payload):
-                let responseContent = payload as! [Any]
+                let responseContent = payload as? [Any] ?? []
                 if responseContent.count > 0 {
-                    let locations = (responseContent[0] as! [String: Any])["locations"] as! [[String: Any]]
+                    let locations = (responseContent[0] as? [String: Any] ?? [:])["locations"] as? [[String: Any]] ?? []
                     completion(.successWithData(.init(object: locationsFromAlerts(jsonLocations: locations))))
                 } else {
                     completion(.successWithData(.init(object: [])))
@@ -865,7 +866,7 @@ public final class ESPMobileAPI {
         Alamofire.request(endpoint, method: .get).responseJSON {
             switch (parseJsonResponse($0.data)) {
             case .espSuccess(let payload):
-                let password = (payload as! [[String: String]])[0]["password"]!
+                let password = (payload as? [[String: String]])?[0]["password"] ?? ""
                 completion(.successWithData(.init(object: password)))
             case .espConnectionFailure(let failure): completion(.failure(.init(message: failure)))
             case .espLogicFailure: completion(.failure(.init(message: "Error validating password")))
@@ -880,7 +881,7 @@ public final class ESPMobileAPI {
             switch (result) {
             case .success: break
             case .successWithData(let data):
-                let currentPassword = data.object as! String
+                let currentPassword = data.object as? String ?? ""
                 
                 if currentPassword == oldPassword {
                     let endpoint = "https://espmobile.org/api/v1/users/\(userID)/password"
@@ -942,12 +943,12 @@ public final class ESPMobileAPI {
             switch ($0) {
             case .success: break
             case .successWithData(let data):
-                let locations = data.object as! [Location]
+                let locations = data.object as? [Location] ?? []
                 if locations.count > 0 {
                     let userLocation = locations[0]
                     
                     // prevent the same notification being sent
-                    let lastAlertedLocation = UserDefaults.standard.value(forKey: "alertForLocationSent") as! String
+                    let lastAlertedLocation = UserDefaults.standard.value(forKey: "alertForLocationSent") as? String
                     if userLocation.locationID != lastAlertedLocation {
                         if let alertable = userLocation.alertable {
                             if alertable == "true" {

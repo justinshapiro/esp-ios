@@ -31,7 +31,7 @@ class AlertGroupsCoordinator: NSObject {
                     switch $0 {
                     case .successWithData: break
                     case .success:
-                        self.viewController.render(state: .success)
+                        self.viewController.render(state: .softSuccess)
                     case .failure(let failure):
                         self.viewController.render(state: .failure(.init(
                             message: failure.message,

@@ -87,15 +87,15 @@ final class EmergencyContactsViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editContact" {
-            let viewController = segue.destination as! EditContactViewController
+            let viewController = segue.destination as? EditContactViewController
             let indexPath = tableView.indexPath(for: sender as! ContactCell)!
-            viewController.contactID = contactsForCell[indexPath.row]["id"]!
-            viewController.correspondingIndexPath = indexPath
+            viewController?.contactID = contactsForCell[indexPath.row]["id"]!
+            viewController?.correspondingIndexPath = indexPath
             waitingIndicator.startAnimating()
         } else if segue.identifier == "manageAlertGroups" {
-            let viewController = segue.destination as! AlertGroupsViewController
-            viewController.contactsForGroup = contactsForCell.flatMap { if $0["group_id"]! != nil { return $0 } else { return nil } }
-            viewController.currentContacts = contactsForCell.filter { currentContact in viewController.contactsForGroup.index { $0["id"]!! == currentContact["id"]!! } == nil }
+            let viewController = segue.destination as? AlertGroupsViewController
+            viewController?.contactsForGroup = contactsForCell.flatMap { if $0["group_id"]! != nil { return $0 } else { return nil } }
+            viewController?.currentContacts = contactsForCell.filter { currentContact in viewController?.contactsForGroup.index { $0["id"]!! == currentContact["id"]!! } == nil }
         }
     }
     

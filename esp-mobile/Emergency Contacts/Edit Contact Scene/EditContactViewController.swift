@@ -200,9 +200,9 @@ final class EditContactViewController: UIViewController {
     private func renderSuccessState() {
         dismiss(animated: true)
         
-        let viewController = presentingViewController!.childViewControllers[1] as! EmergencyContactsViewController
-        viewController.contactsForCell[correspondingIndexPath!.row]["phone"] = Contact.formatPhoneNumber(phoneNumber: phone.text!)
+        let viewController = presentingViewController!.childViewControllers[1] as? EmergencyContactsViewController
+        viewController?.contactsForCell[correspondingIndexPath!.row]["phone"] = Contact.formatPhoneNumber(phoneNumber: phone.text!)
         
-        viewController.tableView.reloadData()
+        viewController?.tableView.reloadData()
     }
 }

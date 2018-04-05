@@ -110,7 +110,7 @@ final class DeleteAccountViewController: UIViewController {
         
         navigationController?.popToRootViewController(animated: true)
         
-        let viewController = presentingViewController!.childViewControllers[0] as! SafetyZonesViewController
+        guard let viewController = presentingViewController?.childViewControllers[0] as? SafetyZonesViewController else { return }
         viewController.modalSegue(segue: "logOut")
     }
 }

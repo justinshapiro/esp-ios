@@ -197,7 +197,7 @@ final class SafetyZonesViewController: UIViewController {
         super.viewWillAppear(true)
         
         Timer(
-            timeInterval: 60,
+            timeInterval: 10,
             target: self,
             selector: #selector(checkForSafetyZoneProximity),
             userInfo: nil,
@@ -225,8 +225,8 @@ final class SafetyZonesViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "locationDetail" && locationToSend != nil {
-            let viewController = segue.destination as! LocationDetailViewController
-            viewController.locationFromMap = locationToSend!
+            let viewController = segue.destination as? LocationDetailViewController
+            viewController?.locationFromMap = locationToSend!
         }
     }
     
@@ -238,8 +238,8 @@ final class SafetyZonesViewController: UIViewController {
     }
     
     @objc private func callPhoneNumber(sender: UIButton) {
-        let safetyZoneAnnotationView = sender.superview as! SafetyZoneAnnotationView
-        let callablePhoneNumber = Location.getCallable(phoneNumber: safetyZoneAnnotationView.locationPhone.text!)
+        guard let safetyZoneAnnotationView = sender.superview as? SafetyZoneAnnotationView else { return }
+        let callablePhoneNumber = Location.getCallable(phoneNumber: safetyZoneAnnotationView.locationPhone.text ?? "")
         if let url = URL(string: "telprompt://\(callablePhoneNumber)"), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
@@ -276,7 +276,7 @@ final class SafetyZonesViewController: UIViewController {
     
     public func modalSegue(segue: String) {
         if segue == "logOut" {
-            let shouldUnwind = UserDefaults.standard.object(forKey: "rootVCIsPresent") as! Bool
+            guard let shouldUnwind = UserDefaults.standard.object(forKey: "rootVCIsPresent") as? Bool else { return }
             
             if shouldUnwind {
                 performSegue(withIdentifier: segue, sender: self)
@@ -369,7 +369,7 @@ final class SafetyZonesViewController: UIViewController {
         
         radiusSlider.isEnabled = true
         
-        if UserDefaults.standard.value(forKey: "distressMode") as! Bool {
+        if let distressMode = UserDefaults.standard.value(forKey: "distressMode") as? Bool, distressMode {
             distressExitButton.isEnabled = true
             distressModeLabel.isHidden = false
             menuButton.isEnabled = false
@@ -378,7 +378,7 @@ final class SafetyZonesViewController: UIViewController {
             distressModeLabel.isHidden = true
             menuButton.isEnabled = true
             Timer(
-                timeInterval: 60,
+                timeInterval: 10,
                 target: self,
                 selector: #selector(checkForSafetyZoneProximity(_:)),
                 userInfo: nil,
@@ -464,17 +464,17 @@ extension SafetyZonesViewController: MKMapViewDelegate {
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: "annotation")
         
         pinView = AnnotationView(annotation: annotation, reuseIdentifier: "annotation")
-        pinView!.canShowCallout = false
+        pinView?.canShowCallout = false
         
         var pinType = "map_pin"
-        switch (annotation as! SafetyZoneAnnotation).location.category {
+        switch (annotation as? SafetyZoneAnnotation)?.location.category {
         case "hospital": pinType = "hospital_pin"
         case "police": pinType = "police_pin"
         case "fire_station": pinType = "fire_pin"
         default: pinType = "custom_pin"
         }
         
-        pinView!.image = UIImage(named: pinType)?.castRetina(to: CGSize(width: 35, height: 45))
+        pinView?.image = UIImage(named: pinType)?.castRetina(to: CGSize(width: 35, height: 45))
         return pinView
     }
     
@@ -490,24 +490,25 @@ extension SafetyZonesViewController: MKMapViewDelegate {
                         )
                         
                         let views = Bundle.main.loadNibNamed("SafetyZoneAnnotationView", owner: nil, options: nil)
-                        let safetyZoneAnnotationView = views?[0] as! SafetyZoneAnnotationView
-                        self.locationToSend = location
-                        safetyZoneAnnotationView.showDetailButton.addTarget(self, action: #selector(self.detailButtonClicked), for: .touchUpInside)
+                        if let safetyZoneAnnotationView = views?[0] as? SafetyZoneAnnotationView {
+                            self.locationToSend = location
+                            safetyZoneAnnotationView.showDetailButton.addTarget(self, action: #selector(self.detailButtonClicked), for: .touchUpInside)
+                            
+                            safetyZoneAnnotationView.locationName.text = safetyZoneAnnotation.location.name
+                            safetyZoneAnnotationView.locationPhone.attributedText = attributedPhoneNumber
+                            safetyZoneAnnotationView.locationAddress.text = safetyZoneAnnotation.location.address
+                            
+                            let phoneButton = UIButton(frame: safetyZoneAnnotationView.locationPhone.frame)
+                            phoneButton.addTarget(self, action: #selector(self.callPhoneNumber), for: .touchUpInside)
+                            safetyZoneAnnotationView.addSubview(phoneButton)
+                            safetyZoneAnnotationView.center = CGPoint(
+                                x: view.bounds.size.width / 2,
+                                y: -safetyZoneAnnotationView.bounds.size.height * 0.52
+                            )
+                            
+                            view.addSubview(safetyZoneAnnotationView)
+                        }
                         
-                        safetyZoneAnnotationView.locationName.text = safetyZoneAnnotation.location.name
-                        safetyZoneAnnotationView.locationPhone.attributedText = attributedPhoneNumber
-                        safetyZoneAnnotationView.locationAddress.text = safetyZoneAnnotation.location.address
-                        
-                        let phoneButton = UIButton(frame: safetyZoneAnnotationView.locationPhone.frame)
-                        phoneButton.addTarget(self, action: #selector(self.callPhoneNumber), for: .touchUpInside)
-                        safetyZoneAnnotationView.addSubview(phoneButton)
-                        
-                        safetyZoneAnnotationView.center = CGPoint(
-                            x: view.bounds.size.width / 2,
-                            y: -safetyZoneAnnotationView.bounds.size.height * 0.52
-                        )
-                        
-                        view.addSubview(safetyZoneAnnotationView)
                         self.mapView.setCenter((view.annotation?.coordinate)!, animated: true)
                     }
                 }
@@ -518,25 +519,26 @@ extension SafetyZonesViewController: MKMapViewDelegate {
                 )
                 
                 let views = Bundle.main.loadNibNamed("SafetyZoneAnnotationView", owner: nil, options: nil)
-                let safetyZoneAnnotationView = views?[0] as! SafetyZoneAnnotationView
+                if let safetyZoneAnnotationView = views?[0] as? SafetyZoneAnnotationView {
+                    self.locationToSend = safetyZoneAnnotation.location
+                    safetyZoneAnnotationView.showDetailButton.addTarget(self, action: #selector(self.detailButtonClicked), for: .touchUpInside)
+                    
+                    safetyZoneAnnotationView.locationName.text = safetyZoneAnnotation.location.name
+                    safetyZoneAnnotationView.locationPhone.attributedText = attributedPhoneNumber
+                    safetyZoneAnnotationView.locationAddress.text = safetyZoneAnnotation.location.address
+                    
+                    let phoneButton = UIButton(frame: safetyZoneAnnotationView.locationPhone.frame)
+                    phoneButton.addTarget(self, action: #selector(self.callPhoneNumber), for: .touchUpInside)
+                    safetyZoneAnnotationView.addSubview(phoneButton)
+                    
+                    safetyZoneAnnotationView.center = CGPoint(
+                        x: view.bounds.size.width / 2,
+                        y: -safetyZoneAnnotationView.bounds.size.height * 0.52
+                    )
+                    
+                    view.addSubview(safetyZoneAnnotationView)
+                }
                 
-                self.locationToSend = safetyZoneAnnotation.location
-                safetyZoneAnnotationView.showDetailButton.addTarget(self, action: #selector(self.detailButtonClicked), for: .touchUpInside)
-                
-                safetyZoneAnnotationView.locationName.text = safetyZoneAnnotation.location.name
-                safetyZoneAnnotationView.locationPhone.attributedText = attributedPhoneNumber
-                safetyZoneAnnotationView.locationAddress.text = safetyZoneAnnotation.location.address
-                
-                let phoneButton = UIButton(frame: safetyZoneAnnotationView.locationPhone.frame)
-                phoneButton.addTarget(self, action: #selector(self.callPhoneNumber), for: .touchUpInside)
-                safetyZoneAnnotationView.addSubview(phoneButton)
-                
-                safetyZoneAnnotationView.center = CGPoint(
-                    x: view.bounds.size.width / 2,
-                    y: -safetyZoneAnnotationView.bounds.size.height * 0.52
-                )
-                
-                view.addSubview(safetyZoneAnnotationView)
                 self.mapView.setCenter((view.annotation?.coordinate)!, animated: true)
             }
         }

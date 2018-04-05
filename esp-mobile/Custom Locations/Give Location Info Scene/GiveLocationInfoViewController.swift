@@ -218,7 +218,7 @@ final class GiveLocationInfoViewController: UIViewController {
         
         dismiss(animated: true)
         
-        let viewController = presentingViewController?.childViewControllers[2] as! AddLocationViewController
+        guard let viewController = presentingViewController?.childViewControllers[2] as? AddLocationViewController else { return }
         viewController.modalSuccessTransition()
     }
 }

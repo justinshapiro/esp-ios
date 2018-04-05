@@ -108,9 +108,9 @@ final class AddLocationViewController: UIViewController, MKMapViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addLocationInfo" {
-            let viewController = segue.destination as! GiveLocationInfoViewController
-            viewController.latitudeFromMap = mapView.centerCoordinate.latitude
-            viewController.longitudeFromMap = mapView.centerCoordinate.longitude
+            let viewController = segue.destination as? GiveLocationInfoViewController
+            viewController?.latitudeFromMap = mapView.centerCoordinate.latitude
+            viewController?.longitudeFromMap = mapView.centerCoordinate.longitude
         }
     }
     

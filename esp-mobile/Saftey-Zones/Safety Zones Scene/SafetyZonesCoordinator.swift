@@ -17,7 +17,7 @@ final class SafetyZonesCoordinator: NSObject, CLLocationManagerDelegate {
     private var invokeGetLocation: ((String, @escaping (Location?) -> Void) -> Void)!
     
     override func awakeFromNib() {
-        if UserDefaults.standard.value(forKey: "distressMode") as! Bool {
+        if let distressMode = UserDefaults.standard.value(forKey: "distressMode") as? Bool, distressMode {
             viewController.navigationController?.navigationBar.barTintColor = .red
             viewController.navigationItem.leftBarButtonItem = nil
         } else {
