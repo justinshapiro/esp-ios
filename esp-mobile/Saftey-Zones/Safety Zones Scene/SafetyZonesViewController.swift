@@ -197,7 +197,7 @@ final class SafetyZonesViewController: UIViewController {
         super.viewWillAppear(true)
         
         Timer(
-            timeInterval: 10,
+            timeInterval: 60,
             target: self,
             selector: #selector(checkForSafetyZoneProximity),
             userInfo: nil,
@@ -378,7 +378,7 @@ final class SafetyZonesViewController: UIViewController {
             distressModeLabel.isHidden = true
             menuButton.isEnabled = true
             Timer(
-                timeInterval: 10,
+                timeInterval: 60,
                 target: self,
                 selector: #selector(checkForSafetyZoneProximity(_:)),
                 userInfo: nil,
