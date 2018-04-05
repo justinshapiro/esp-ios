@@ -197,7 +197,7 @@ final class SafetyZonesViewController: UIViewController {
         super.viewWillAppear(true)
         
         Timer(
-            timeInterval: 60,
+            timeInterval: 10,
             target: self,
             selector: #selector(checkForSafetyZoneProximity),
             userInfo: nil,
@@ -378,7 +378,7 @@ final class SafetyZonesViewController: UIViewController {
             distressModeLabel.isHidden = true
             menuButton.isEnabled = true
             Timer(
-                timeInterval: 60,
+                timeInterval: 10,
                 target: self,
                 selector: #selector(checkForSafetyZoneProximity(_:)),
                 userInfo: nil,
@@ -467,7 +467,7 @@ extension SafetyZonesViewController: MKMapViewDelegate {
         pinView?.canShowCallout = false
         
         var pinType = "map_pin"
-        switch (annotation as? SafetyZoneAnnotation)?.location.category {
+        switch (annotation as? SafetyZoneAnnotation)?.location.category ?? "" {
         case "hospital": pinType = "hospital_pin"
         case "police": pinType = "police_pin"
         case "fire_station": pinType = "fire_pin"
