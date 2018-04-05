@@ -14,7 +14,10 @@ class AlertGroupsCoordinator: NSObject {
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()
-        viewController.render(state: .initial(.init(submit: { self.updateContactGroups(contactsForGroup: $0) })))
+        viewController.render(state: .initial(.init(
+            submit: { self.updateContactGroups(contactsForGroup: $0) },
+            disableAlertGroups: { self.disableAlertGroups() }
+        )))
     }
     
     private func updateContactGroups(contactsForGroup: [[String: String?]]) {
@@ -22,7 +25,7 @@ class AlertGroupsCoordinator: NSObject {
         
         ESPMobileAPI.deleteContactGroup {
             switch $0 {
-                case .successWithData: break
+            case .successWithData: break
             case .success:
                 ESPMobileAPI.addContactGroup(contactIDs: contactsForGroup.flatMap { $0["id"]! ?? nil }) {
                     switch $0 {
@@ -32,14 +35,34 @@ class AlertGroupsCoordinator: NSObject {
                     case .failure(let failure):
                         self.viewController.render(state: .failure(.init(
                             message: failure.message,
-                            submit: { self.updateContactGroups(contactsForGroup: $0) }
+                            submit: { self.updateContactGroups(contactsForGroup: $0) },
+                            disableAlertGroups: { self.disableAlertGroups() }
                         )))
                     }
                 }
             case .failure(let failure):
                 self.viewController.render(state: .failure(.init(
                     message: failure.message,
-                    submit: { self.updateContactGroups(contactsForGroup: $0) }
+                    submit: { self.updateContactGroups(contactsForGroup: $0) },
+                    disableAlertGroups: { self.disableAlertGroups() }
+                )))
+            }
+        }
+    }
+    
+    private func disableAlertGroups() {
+        viewController.render(state: .waiting)
+        
+        ESPMobileAPI.deleteContactGroup {
+            switch $0 {
+            case .successWithData: break
+            case .success:
+                self.viewController.render(state: .softSuccess)
+            case .failure(let failure):
+                self.viewController.render(state: .failure(.init(
+                    message: failure.message,
+                    submit: { self.updateContactGroups(contactsForGroup: $0) },
+                    disableAlertGroups: { self.disableAlertGroups() }
                 )))
             }
         }

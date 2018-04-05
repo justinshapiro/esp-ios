@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import MapKit
 import GooglePlaces
+import AppCenter
+import AppCenterAnalytics
+import AppCenterCrashes
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -49,6 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // show the splash screen for a fixed amount of time
         Thread.sleep(forTimeInterval: 3)
+        
+        // communication with AppCenter for crash reporting
+        MSAppCenter.start("c93552b8-75fb-4a91-8adb-6256101a41ed", withServices: [MSAnalytics.self, MSCrashes.self])
 
         return true
     }

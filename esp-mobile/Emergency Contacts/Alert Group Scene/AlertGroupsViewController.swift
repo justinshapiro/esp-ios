@@ -16,15 +16,18 @@ final class AlertGroupsViewController: UIViewController {
         case initial(Initial)
         case waiting
         case failure(Failure)
+        case softSuccess
         case success
         
         struct Initial {
             let submit: ([[String: String?]]) -> Void
+            let disableAlertGroups: () -> Void
         }
         
         struct Failure {
             let message: String
             let submit: ([[String: String?]]) -> Void
+            let disableAlertGroups: () -> Void
         }
     }
     
@@ -122,6 +125,12 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
+    private var changeAlertGroupsAction: Target? {
+        didSet {
+            groupEnabledSwitch.addTarget(changeAlertGroupsAction, action: #selector(Target.action), for: .touchUpInside)
+        }
+    }
+    
     // MARK: Helper methods
     
     private func reorderItems(in collectionView: UICollectionView, coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath) {
@@ -186,6 +195,7 @@ final class AlertGroupsViewController: UIViewController {
             case .initial(let initial): self.renderInitialState(state: initial)
             case .waiting:              self.renderWaitingState()
             case .failure(let failure): self.renderFailureState(state: failure)
+            case .softSuccess:          self.renderSoftSuccessState()
             case .success:              self.renderSuccessState()
             }
         }
@@ -203,6 +213,14 @@ final class AlertGroupsViewController: UIViewController {
         saveContactGroupAction = Target { [unowned self] _ in
             if self.updateDidOccur {
                state.submit(self.contactsForGroup)
+            }
+        }
+        
+        changeAlertGroupsAction = Target { [unowned self] _ in
+            if !self.groupEnabledSwitch.isOn {
+                state.submit(self.contactsForGroup)
+            } else {
+                state.disableAlertGroups()
             }
         }
     }
@@ -230,6 +248,19 @@ final class AlertGroupsViewController: UIViewController {
                 state.submit(self.contactsForGroup)
             }
         }
+        
+        changeAlertGroupsAction = Target { [unowned self] _ in
+            if !self.groupEnabledSwitch.isOn {
+                state.submit(self.contactsForGroup)
+            } else {
+                state.disableAlertGroups()
+            }
+        }
+    }
+    
+    private func renderSoftSuccessState() {
+        waitingIndicator.stopAnimating()
+        errorView.isHidden = true
     }
     
     private func renderSuccessState() {
