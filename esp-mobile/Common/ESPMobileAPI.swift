@@ -10,9 +10,9 @@ import Foundation
 import Alamofire
 import AlamofireImage
 
-// MARK: Service Models
+// MARK: - Service Models
 
-public struct Location {
+struct Location {
     let latitude: Double
     let longitude: Double
     let name: String
@@ -75,7 +75,7 @@ public struct Location {
     }
 }
 
-public struct UserInfo {
+struct UserInfo {
     let name: String
     let email: String
     let username: String
@@ -84,7 +84,7 @@ public struct UserInfo {
     let oldPassword: String
 }
 
-public struct Contact {
+struct Contact {
     let id: String?
     let name: String
     let phone: String
@@ -108,7 +108,7 @@ public struct Contact {
     }
 }
 
-public struct Feedback {
+struct Feedback {
     var platform: String = ""
     var feedbackRound: String = ""
     
@@ -215,24 +215,24 @@ public struct Feedback {
     }
 }
 
-// MARK: Provider
+// MARK: - Provider
 
-public final class ESPMobileAPI {
-    public enum ESPResponse {
+final class ESPMobileAPI {
+    enum ESPResponse {
         case success
         case successWithData(Response)
         case failure(Failure)
         
-        public struct Response {
+        struct Response {
             let object: Any
         }
         
-        public struct Failure {
+        struct Failure {
             let message: String
         }
     }
     
-    public init() {}
+    init() {}
     
     private enum ESPJsonResponse {
         case espSuccess(Any)
@@ -363,7 +363,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: POST /api/v1/authentication/login
-    public static func login(loginID: String, password: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func login(loginID: String, password: String, _ completion: @escaping (ESPResponse) -> ()) {
         let endpoint = "https://espmobile.org/api/v1/authentication/login"
         let queryParameters: Parameters = [
             "username": loginID,
@@ -401,7 +401,7 @@ public final class ESPMobileAPI {
     }
     
     // GET /api/v1/authentication/logout
-    public static func logout(_ completion: @escaping (ESPResponse) -> ()) {
+    static func logout(_ completion: @escaping (ESPResponse) -> ()) {
         let endpoint = "https://espmobile.org/api/v1/authentication/logout"
         
         loadCookies()
@@ -426,7 +426,7 @@ public final class ESPMobileAPI {
     }
 
     // Route GET /api/v1/locations
-    public static func safetyZones(latitude: String, longitude: String, radius: String, _ completion: @escaping (ESPResponse) ->()) {
+    static func safetyZones(latitude: String, longitude: String, radius: String, _ completion: @escaping (ESPResponse) ->()) {
         let endpoint = "https://espmobile.org/api/v1/locations"
         var queryParameters: Parameters = [
             "latitude": latitude,
@@ -449,7 +449,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/locations/{id}
-    public static func getLocation(locationID: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func getLocation(locationID: String, _ completion: @escaping (ESPResponse) -> ()) {
         let endpoint = "https://espmobile.org/api/v1/locations/\(locationID)"
         
         loadCookies()
@@ -463,7 +463,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/users/{id}
-    public static func getUserInfo(_ completion: @escaping (ESPResponse) -> ()) {
+    static func getUserInfo(_ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else {
             completion(.failure(.init(message: "You must login to view this information")))
             return
@@ -495,7 +495,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: POST /api/v1/users
-    public static func addUserAndLogin(userInfo: UserInfo, _ completion: @escaping (ESPResponse) -> ()) {
+    static func addUserAndLogin(userInfo: UserInfo, _ completion: @escaping (ESPResponse) -> ()) {
         if userInfo.password == userInfo.confirmPassword {
             let endpoint = "https://espmobile.org/api/v1/users"
             let queryParameters: Parameters = [
@@ -511,7 +511,7 @@ public final class ESPMobileAPI {
                 case .espSuccess:
                     // successful account creation, so automatically log them in with the credentials they have alread supplied
                     login(loginID: userInfo.username, password: userInfo.password) { result in
-                        switch (result) {
+                        switch result {
                         case .successWithData: break
                         case .success: completion(.success)
                         case .failure: completion(.failure(.init(message: "Account was created but automatic login failed")))
@@ -527,7 +527,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: PUT /api/v1/users/{id}/name
-    public static func updateUserName(userName: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func updateUserName(userName: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/name"
         let queryParameters: Parameters = [
@@ -548,7 +548,7 @@ public final class ESPMobileAPI {
     }
     
     // Route PUT /api/v1/users/{id}/email
-    public static func updateUserEmail(userEmail: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func updateUserEmail(userEmail: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/email"
         let queryParameters: Parameters = [
@@ -569,7 +569,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: DELETE /api/v1/users/{id}
-    public static func deleteUser(_ completion: @escaping (ESPResponse) -> ()) {
+    static func deleteUser(_ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)"
         
@@ -592,7 +592,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/users/{id}/locations
-    public static func getUserLocations(latitude: String? = nil, longitude: String? = nil, radius: String? = nil, _ completion: @escaping (ESPResponse) ->()) {
+    static func getUserLocations(latitude: String? = nil, longitude: String? = nil, radius: String? = nil, _ completion: @escaping (ESPResponse) ->()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/locations"
         
@@ -622,7 +622,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/users/{id}/locations/{id}
-    public static func userLocation(locationID: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func userLocation(locationID: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/locations/\(locationID)"
         
@@ -636,7 +636,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: POST /api/v1/users/{id}/locations
-    public static func addCustomLocation(location: Location, _ completion: @escaping (ESPResponse) -> ()) {
+    static func addCustomLocation(location: Location, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/locations"
         let queryParameters: Parameters = [
@@ -662,7 +662,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: DELETE /api/v1/user/{id}/locations/{id}
-    public static func deleteCustomLocation(locationID: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func deleteCustomLocation(locationID: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/locations/\(locationID)"
         
@@ -679,7 +679,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/locations/photo
-    public static func getLocationPhoto(photoRef: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func getLocationPhoto(photoRef: String, _ completion: @escaping (ESPResponse) -> ()) {
         let endpoint = "https://espmobile.org/api/v1/locations/photo"
         let queryParameters: Parameters = [
             "photo_ref": photoRef
@@ -695,7 +695,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/user/{id}/contacts
-    public static func getContacts(_ completion: @escaping (ESPResponse) -> ()) {
+    static func getContacts(_ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/contacts"
         
@@ -709,7 +709,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: POST /api/v1/user/{id}/contacts
-    public static func addContact(contact: Contact, _ completion: @escaping (ESPResponse) -> ()) {
+    static func addContact(contact: Contact, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/contacts"
         let queryParameters: Parameters = [
@@ -727,7 +727,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/user/{id}/contacts/{id}
-    public static func getContact(contactID: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func getContact(contactID: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/contacts/\(contactID)"
         
@@ -741,7 +741,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: PUT /api/v1/user/{id}/contact/{id}/phone
-    public static func updateContactPhone(contactID: String, contactPhone: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func updateContactPhone(contactID: String, contactPhone: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/contacts/\(contactID)/phone"
         let queryParameters: Parameters = [
@@ -758,7 +758,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: DELETE /api/v1/user/{id}/contacts/{id}
-    public static func deleteContact(contactID: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func deleteContact(contactID: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/contacts/\(contactID)"
         
@@ -772,7 +772,7 @@ public final class ESPMobileAPI {
     }
     
     // ROUTE: POST /api/v1/user/{id}/contacts/group
-    public static func addContactGroup(contactIDs: [String], _ completion: @escaping (ESPResponse) -> ()) {
+    static func addContactGroup(contactIDs: [String], _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/contacts/group"
         let queryParameters: Parameters = [
@@ -789,7 +789,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: DELETE /api/v1/user/{id}/contacts/group
-    public static func deleteContactGroup(_ completion: @escaping (ESPResponse) -> ()) {
+    static func deleteContactGroup(_ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/contacts/group"
             
@@ -803,7 +803,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/users/{id}/alert
-    public static func getAlerts(_ completion: @escaping (ESPResponse) -> ()) {
+    static func getAlerts(_ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/alert"
         
@@ -824,7 +824,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: POST /api/v1/users/{id}/alert
-    public static func addAlert(locationID: String, alertable: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func addAlert(locationID: String, alertable: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/alert"
         let queryParameters: Parameters = [
@@ -842,7 +842,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: DELETE /api/v1/users/{id}/alert/{id}
-    public static func deleteAlert(locationID: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func deleteAlert(locationID: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/alert"
         let queryParameters: Parameters = [
@@ -859,7 +859,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: GET /api/v1/users/{id}/password
-    public static func getPassword(_ completion: @escaping (ESPResponse) -> ()) {
+    static func getPassword(_ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         let endpoint = "https://espmobile.org/api/v1/users/\(userID)/password"
         
@@ -875,10 +875,10 @@ public final class ESPMobileAPI {
     }
     
     // Route: PUT /api/v1/users/{id}/password
-    public static func updatePassword(oldPassword: String, newPassword: String, _ completion: @escaping (ESPResponse) -> ()) {
+    static func updatePassword(oldPassword: String, newPassword: String, _ completion: @escaping (ESPResponse) -> ()) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { completion(.failure(.init(message: "You are not logged in"))); return }
         getPassword { result in
-            switch (result) {
+            switch result {
             case .success: break
             case .successWithData(let data):
                 let currentPassword = data.object as? String ?? ""
@@ -905,7 +905,7 @@ public final class ESPMobileAPI {
     }
     
     // Route: POST /api/v1/notification
-    public static func sendNotification(locationID: String, category: String) {
+    static func sendNotification(locationID: String, category: String) {
         guard let userID = UserDefaults.standard.value(forKey: "loggedInUser") as? String else { return }
         let endpoint = "https://espmobile.org/api/v1/notification"
         let queryParameters: Parameters = [
@@ -924,7 +924,7 @@ public final class ESPMobileAPI {
     }
     
     // ROUTE: POST /api/v1/feedback
-    public static func sendFeedback(feedback: Feedback, _ completion: @escaping (ESPResponse) -> ()) {
+    static func sendFeedback(feedback: Feedback, _ completion: @escaping (ESPResponse) -> ()) {
         let endpoint = "https://espmobile.org/api/v1/feedback"
         let queryParameters: Parameters = feedback.tabularRepresentation(safe: true)
         
@@ -937,7 +937,7 @@ public final class ESPMobileAPI {
         }
     }
     
-    public static func checkForSafetyZoneProximity(with userLocation: (String, String), _ completion: @escaping () -> ()) {
+    static func checkForSafetyZoneProximity(with userLocation: (String, String), _ completion: @escaping () -> ()) {
         print("Performing proximity check")
         safetyZones(latitude: userLocation.0, longitude: userLocation.1, radius: "10") {
             switch ($0) {
@@ -1018,12 +1018,12 @@ extension Sequence where Iterator.Element == Contact {
         var currentSectionKey: String = ""
         var currentSection: [[String: String?]] = []
         let tabularRepresentation = self.tabularRepresentation()
-        tabularRepresentation.enumerated().forEach { (i, contact) in
-            if currentSectionKey == "" {
+        tabularRepresentation.enumerated().forEach { index, contact in
+            if currentSectionKey.isEmpty {
                 currentSectionKey = String(Array(contact["name"]!!)[0]).uppercased()
                 currentSection.append(contact)
                 
-                if tabularRepresentation.count - 1 == i {
+                if tabularRepresentation.count - 1 == index {
                     sectionalRepresentation.append(currentSection)
                 }
             } else {
@@ -1033,7 +1033,7 @@ extension Sequence where Iterator.Element == Contact {
                     currentSection = [contact]
                     currentSectionKey = currentKey
                     
-                    if tabularRepresentation.count - 1 == i {
+                    if tabularRepresentation.count - 1 == index {
                         sectionalRepresentation.append(currentSection)
                     }
                 } else {

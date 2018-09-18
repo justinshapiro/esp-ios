@@ -10,7 +10,7 @@ import Foundation
 
 final class CustomLocationsCoordinator: NSObject {
     private typealias ViewModel = CustomLocationsViewController.ViewModel
-    @IBOutlet weak private var viewController: CustomLocationsViewController!
+    @IBOutlet private var viewController: CustomLocationsViewController!
     
     private var invokeDeleteCustomLocation: ((String) -> Void)!
     

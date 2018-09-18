@@ -10,7 +10,7 @@ import UIKit
 
 final class ProvideFeedbackEndViewController: UIViewController {
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
     @IBAction private func exitRequested(_ sender: UIButton) {
         performSegue(withIdentifier: "unwindFromThankYou", sender: self)
@@ -20,13 +20,13 @@ final class ProvideFeedbackEndViewController: UIViewController {
         performSegue(withIdentifier: "unwindFromThankYou", sender: self)
     }
     
-    @IBOutlet weak private var exitButton: UIButton! {
+    @IBOutlet private var exitButton: UIButton! {
         didSet {
             exitButton.layer.cornerRadius = 5
         }
     }
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

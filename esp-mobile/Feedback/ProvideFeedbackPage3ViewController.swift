@@ -10,11 +10,11 @@ import UIKit
 
 final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtocol {
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var easyNearYouSwitch: UISegmentedControl!
-    @IBOutlet weak private var minRadiusSwitch: UISegmentedControl!
-    @IBOutlet weak private var safetyZonesOnMapField: UITextView! {
+    @IBOutlet private var easyNearYouSwitch: UISegmentedControl!
+    @IBOutlet private var minRadiusSwitch: UISegmentedControl!
+    @IBOutlet private var safetyZonesOnMapField: UITextView! {
         didSet {
             safetyZonesOnMapField.layer.cornerRadius = 5
             safetyZonesOnMapField.layer.borderColor = UIColor.black.cgColor
@@ -23,7 +23,7 @@ final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var detailProvidedField: UITextView! {
+    @IBOutlet private var detailProvidedField: UITextView! {
         didSet {
             detailProvidedField.layer.cornerRadius = 5
             detailProvidedField.layer.borderColor = UIColor.black.cgColor
@@ -32,7 +32,7 @@ final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var categoriesField: UITextView! {
+    @IBOutlet private var categoriesField: UITextView! {
         didSet {
             categoriesField.layer.cornerRadius = 5
             categoriesField.layer.borderColor = UIColor.black.cgColor
@@ -41,7 +41,7 @@ final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var positiveExperienceField: UITextView! {
+    @IBOutlet private var positiveExperienceField: UITextView! {
         didSet {
             positiveExperienceField.layer.cornerRadius = 5
             positiveExperienceField.layer.borderColor = UIColor.black.cgColor
@@ -50,7 +50,7 @@ final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var negativeExperienceField: UITextView! {
+    @IBOutlet private var negativeExperienceField: UITextView! {
         didSet {
             negativeExperienceField.layer.cornerRadius = 5
             negativeExperienceField.layer.borderColor = UIColor.black.cgColor
@@ -59,13 +59,13 @@ final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var lookFeelSlider: UISlider!
-    @IBOutlet weak private var lookFeelLabel: UILabel!
+    @IBOutlet private var lookFeelSlider: UISlider!
+    @IBOutlet private var lookFeelLabel: UILabel!
     @IBAction private func lookFeelSliderChanged(_ sender: UISlider) {
         lookFeelLabel.text = "\(Int(sender.value)) out of 10"
     }
     
-    @IBOutlet weak private var nextPageButton: UIButton! {
+    @IBOutlet private var nextPageButton: UIButton! {
         didSet {
             nextPageButton.layer.cornerRadius = 5
         }
@@ -80,12 +80,12 @@ final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtoc
         view.endEditing(true)
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     var feedback: Feedback?
     var feedbackPosition: FeedbackPosition = .page3
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let viewController = segue.destination as? ProvideFeedbackPage4ViewController else { return }
@@ -96,7 +96,7 @@ final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtoc
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         collectFeedback()
-        (parent?.childViewControllers.last as? ProvideFeedbackPage2ViewController)?.feedback = feedback
+        (parent?.children.last as? ProvideFeedbackPage2ViewController)?.feedback = feedback
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,7 +104,7 @@ final class ProvideFeedbackPage3ViewController: UIViewController, FeedbackProtoc
         restoreFeedback()
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     func collectFeedback() {
         if feedback == nil {

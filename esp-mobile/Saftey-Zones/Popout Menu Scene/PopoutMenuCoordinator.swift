@@ -10,7 +10,7 @@ import Foundation
 
 final class PopoutMenuCoordinator: NSObject {
     private typealias ViewModel = PopoutMenuViewController.ViewModel
-    @IBOutlet weak private var viewController: PopoutMenuViewController!
+    @IBOutlet private var viewController: PopoutMenuViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()
@@ -24,8 +24,8 @@ final class PopoutMenuCoordinator: NSObject {
             guard let deserializedConfig = try? JSONSerialization.jsonObject(with: configData, options: .allowFragments) as? [[Any]] else { return [] }
             
             if let deserializedConfig = deserializedConfig {
-                let expectedConfig: [[[String: String]]] = deserializedConfig.flatMap {
-                    $0.flatMap { $0 as? [String: String] }
+                let expectedConfig: [[[String: String]]] = deserializedConfig.compactMap {
+                    $0.compactMap { $0 as? [String: String] }
                 }
                 
                 return expectedConfig

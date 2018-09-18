@@ -10,10 +10,10 @@ import UIKit
 
 final class ProvideFeedbackPage5ViewController: UIViewController, FeedbackProtocol {
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var addingSafetyZonesIntuitive: UISegmentedControl!
-    @IBOutlet weak private var positiveCommentField: UITextView! {
+    @IBOutlet private var addingSafetyZonesIntuitive: UISegmentedControl!
+    @IBOutlet private var positiveCommentField: UITextView! {
         didSet {
             positiveCommentField.layer.cornerRadius = 5
             positiveCommentField.layer.borderColor = UIColor.black.cgColor
@@ -22,7 +22,7 @@ final class ProvideFeedbackPage5ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var negativeCommentField: UITextView! {
+    @IBOutlet private var negativeCommentField: UITextView! {
         didSet {
             negativeCommentField.layer.cornerRadius = 5
             negativeCommentField.layer.borderColor = UIColor.black.cgColor
@@ -31,8 +31,8 @@ final class ProvideFeedbackPage5ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var nonAlertableExperience: UISegmentedControl!
-    @IBOutlet weak private var nonAlertableExperienceComment: UITextView! {
+    @IBOutlet private var nonAlertableExperience: UISegmentedControl!
+    @IBOutlet private var nonAlertableExperienceComment: UITextView! {
         didSet {
             nonAlertableExperienceComment.layer.cornerRadius = 5
             nonAlertableExperienceComment.layer.borderColor = UIColor.black.cgColor
@@ -41,8 +41,8 @@ final class ProvideFeedbackPage5ViewController: UIViewController, FeedbackProtoc
         }
     }
 
-    @IBOutlet weak private var lookFeelSlider: UISlider!
-    @IBOutlet weak private var lookFeelSliderLabel: UILabel!
+    @IBOutlet private var lookFeelSlider: UISlider!
+    @IBOutlet private var lookFeelSliderLabel: UILabel!
     @IBAction private func lookFeelSliderChanged(_ sender: UISlider) {
         lookFeelSliderLabel.text = "\(Int(sender.value)) out of 10"
     }
@@ -52,7 +52,7 @@ final class ProvideFeedbackPage5ViewController: UIViewController, FeedbackProtoc
         performSegue(withIdentifier: "unwindFromPage5", sender: self)
     }
     
-    @IBOutlet weak private var nextPageButton: UIButton! {
+    @IBOutlet private var nextPageButton: UIButton! {
         didSet {
             nextPageButton.layer.cornerRadius = 5
         }
@@ -62,12 +62,12 @@ final class ProvideFeedbackPage5ViewController: UIViewController, FeedbackProtoc
         view.endEditing(true)
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     var feedback: Feedback?
     var feedbackPosition: FeedbackPosition = .page5
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let viewController = segue.destination as? ProvideFeedbackPage6ViewController else { return }
@@ -78,7 +78,7 @@ final class ProvideFeedbackPage5ViewController: UIViewController, FeedbackProtoc
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         collectFeedback()
-        (parent?.childViewControllers.last as? ProvideFeedbackPage4ViewController)?.feedback = feedback
+        (parent?.children.last as? ProvideFeedbackPage4ViewController)?.feedback = feedback
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,7 +86,7 @@ final class ProvideFeedbackPage5ViewController: UIViewController, FeedbackProtoc
         restoreFeedback()
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     func collectFeedback() {
         if feedback == nil {

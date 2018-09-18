@@ -11,7 +11,7 @@ import MapKit
 
 final class AddLocationViewController: UIViewController, MKMapViewDelegate {
     
-    // MARK: View Model
+    // MARK: - View Model
 
     enum ViewModel {
         case initial(Initial)
@@ -31,9 +31,9 @@ final class AddLocationViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var tableView: UITableView! {
+    @IBOutlet private var tableView: UITableView! {
         didSet {
             tableView.delegate = self
             tableView.dataSource = self
@@ -41,7 +41,7 @@ final class AddLocationViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    @IBOutlet weak private var searchBar: UISearchBar! {
+    @IBOutlet private var searchBar: UISearchBar! {
         didSet {
             searchBar.delegate = self
         }
@@ -52,32 +52,32 @@ final class AddLocationViewController: UIViewController, MKMapViewDelegate {
         searchBar.text = nil
     }
     
-    @IBOutlet weak private var resetButton: UIButton! {
+    @IBOutlet private var resetButton: UIButton! {
         didSet {
             resetButton.isEnabled = false
         }
     }
     
-    @IBOutlet weak private var doneButton: UIButton! {
+    @IBOutlet private var doneButton: UIButton! {
         didSet {
             doneButton.isEnabled = false
         }
     }
     
-    @IBOutlet weak private var mapView: MKMapView! {
+    @IBOutlet private var mapView: MKMapView! {
         didSet {
             mapView.delegate = self
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -87,20 +87,20 @@ final class AddLocationViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var searchResults: [Location] = []
     private var searchResultsQuery: ((String, @escaping ([Location]) -> Void) -> Void)?
     private var addPreselectedLocation: ((Location) -> Void)?
     private var userLocation: CLLocation?
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -114,7 +114,7 @@ final class AddLocationViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    // MARK: Helper functions
+    // MARK: - Helper functions
     
     private func setRegion(from miles: Int, with userLocation: CLLocation?) {
         if userLocation != nil {
@@ -134,17 +134,15 @@ final class AddLocationViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .initial(let initial):   self.renderInitialState(state: initial)
-            case .waiting:                self.renderWaitingState()
-            case .pendingSearchSelection: self.renderPendingSearchSelectionState()
-            case .failure(let failure):   self.renderFailureState(state: failure)
-            case .success:                self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial):   renderInitialState(state: initial)
+        case .waiting:                renderWaitingState()
+        case .pendingSearchSelection: renderPendingSearchSelectionState()
+        case .failure(let failure):   renderFailureState(state: failure)
+        case .success:                renderSuccessState()
         }
     }
     
@@ -192,12 +190,12 @@ final class AddLocationViewController: UIViewController, MKMapViewDelegate {
         navigationController?.popViewController(animated: true)
     }
     
-    public func modalSuccessTransition() {
+     func modalSuccessTransition() {
         renderSuccessState()
     }
 }
 
-// MARK: UITableViewDelegate / UITableViewDataSource
+// MARK: - UITableViewDelegate / UITableViewDataSource
 
 extension AddLocationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -229,7 +227,7 @@ extension AddLocationViewController: UITableViewDelegate, UITableViewDataSource 
     }
 }
 
-// MARK: UISearchBarDelegate
+// MARK: - UISearchBarDelegate
 
 extension AddLocationViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -267,6 +265,6 @@ extension AddLocationViewController: UISearchBarDelegate {
 }
 
 final class AddressCell: UITableViewCell {
-    @IBOutlet weak fileprivate var locationName: UILabel!
-    @IBOutlet weak fileprivate var locationAddress: UILabel!
+    @IBOutlet fileprivate var locationName: UILabel!
+    @IBOutlet fileprivate var locationAddress: UILabel!
 }

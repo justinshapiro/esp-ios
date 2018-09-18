@@ -10,7 +10,7 @@ import UIKit
 
 final class AlertGroupsViewController: UIViewController {
     
-    // MARK: ViewModel
+    // MARK: - ViewModel
     
     enum ViewModel {
         case initial(Initial)
@@ -31,9 +31,9 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var contactsCollectionView: UICollectionView! {
+    @IBOutlet private var contactsCollectionView: UICollectionView! {
         didSet {
             contactsCollectionView.dragInteractionEnabled = true
             contactsCollectionView.dragDelegate = self
@@ -42,8 +42,8 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var contactsBackgroundViewLabel: UILabel!
-    @IBOutlet weak private var groupCollectionView: UICollectionView! {
+    @IBOutlet var contactsBackgroundViewLabel: UILabel!
+    @IBOutlet private var groupCollectionView: UICollectionView! {
         didSet {
             groupCollectionView.dragInteractionEnabled = true
             groupCollectionView.dragDelegate = self
@@ -52,8 +52,8 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var groupBackgroundViewLabel: UILabel!
-    @IBOutlet weak var groupBackgroundView: UIView! {
+    @IBOutlet var groupBackgroundViewLabel: UILabel!
+    @IBOutlet var groupBackgroundView: UIView! {
         didSet {
             groupBackgroundView.layer.cornerRadius = 10
             groupBackgroundView.alpha = 0.65
@@ -64,7 +64,7 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var contactsBackgroundView: UIView! {
+    @IBOutlet var contactsBackgroundView: UIView! {
         didSet {
             contactsBackgroundView.layer.cornerRadius = 10
             contactsBackgroundView.alpha = 0.65
@@ -75,7 +75,7 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var groupEnabledSwitch: UISwitch!
+    @IBOutlet var groupEnabledSwitch: UISwitch!
     @IBAction func groupSwitchChanged(_ sender: UISwitch) {
         if sender.isOn {
             contactsCollectionView.alpha = 1
@@ -90,15 +90,15 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -108,13 +108,13 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     var contactsForGroup: [[String: String?]] = []
     var currentContacts: [[String: String?]] = []
@@ -131,7 +131,7 @@ final class AlertGroupsViewController: UIViewController {
         }
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     private func reorderItems(in collectionView: UICollectionView, coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath) {
         let items = coordinator.items
@@ -187,17 +187,15 @@ final class AlertGroupsViewController: UIViewController {
         })
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch state {
-            case .initial(let initial): self.renderInitialState(state: initial)
-            case .waiting:              self.renderWaitingState()
-            case .failure(let failure): self.renderFailureState(state: failure)
-            case .softSuccess:          self.renderSoftSuccessState()
-            case .success:              self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial): renderInitialState(state: initial)
+        case .waiting:              renderWaitingState()
+        case .failure(let failure): renderFailureState(state: failure)
+        case .softSuccess:          renderSoftSuccessState()
+        case .success:              renderSuccessState()
         }
     }
     
@@ -272,7 +270,7 @@ final class AlertGroupsViewController: UIViewController {
     }
 }
 
-// MARK: UICollectionViewDataSource
+// MARK: - UICollectionViewDataSource
 
 extension AlertGroupsViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -315,7 +313,7 @@ extension AlertGroupsViewController: UICollectionViewDataSource, UICollectionVie
     }
 }
 
-// MARK: UICollectionViewDragDelegate
+// MARK: - UICollectionViewDragDelegate
 
 extension AlertGroupsViewController: UICollectionViewDragDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
@@ -339,7 +337,7 @@ extension AlertGroupsViewController: UICollectionViewDragDelegate {
     }
 }
 
-// MARK: UICollectionViewDropDelegate
+// MARK: - UICollectionViewDropDelegate
 
 extension AlertGroupsViewController: UICollectionViewDropDelegate {
     func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
@@ -376,7 +374,7 @@ extension AlertGroupsViewController: UICollectionViewDropDelegate {
 }
 
 final class CurrentContactCell: UICollectionViewCell {
-    @IBOutlet weak fileprivate var initialImage: UIImageView! {
+    @IBOutlet fileprivate var initialImage: UIImageView! {
         didSet {
             initialImage.backgroundColor = UIColor.lightGray
             initialImage.layer.borderWidth = 1.0
@@ -387,12 +385,12 @@ final class CurrentContactCell: UICollectionViewCell {
         }
     }
     
-    @IBOutlet weak fileprivate var initialLetter: UILabel!
-    @IBOutlet weak fileprivate var contactName: UILabel!
+    @IBOutlet fileprivate var initialLetter: UILabel!
+    @IBOutlet fileprivate var contactName: UILabel!
 }
 
 final class GroupContactCell: UICollectionViewCell {
-    @IBOutlet weak fileprivate var initialImage: UIImageView! {
+    @IBOutlet fileprivate var initialImage: UIImageView! {
         didSet {
             initialImage.backgroundColor = UIColor.lightGray
             initialImage.layer.borderWidth = 1.0
@@ -403,6 +401,6 @@ final class GroupContactCell: UICollectionViewCell {
         }
     }
     
-    @IBOutlet weak fileprivate var initialLetter: UILabel!
-    @IBOutlet weak fileprivate var contactName: UILabel!
+    @IBOutlet fileprivate var initialLetter: UILabel!
+    @IBOutlet fileprivate var contactName: UILabel!
 }

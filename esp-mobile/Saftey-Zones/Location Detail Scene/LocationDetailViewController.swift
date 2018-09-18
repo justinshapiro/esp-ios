@@ -10,7 +10,7 @@ import UIKit
 
 final class LocationDetailViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case initial(Initial)
@@ -30,9 +30,9 @@ final class LocationDetailViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var modalView: UIView! {
+    @IBOutlet private var modalView: UIView! {
         didSet {
             modalView.layer.cornerRadius = 5
             modalView.layer.masksToBounds = true
@@ -44,14 +44,14 @@ final class LocationDetailViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -61,20 +61,20 @@ final class LocationDetailViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    @IBOutlet weak private var locationIcon: UIImageView!
-    @IBOutlet weak private var locationName: UILabel!
-    @IBOutlet weak private var locationAddress: UILabel!
-    @IBOutlet weak private var locationPhone: UILabel!
-    @IBOutlet weak private var locationType: UILabel!
-    @IBOutlet weak private var locationCoordinates: UILabel!
-    @IBOutlet weak private var alertsLabel: UILabel!
-    @IBOutlet weak private var alertSwitch: UISwitch!
+    @IBOutlet private var locationIcon: UIImageView!
+    @IBOutlet private var locationName: UILabel!
+    @IBOutlet private var locationAddress: UILabel!
+    @IBOutlet private var locationPhone: UILabel!
+    @IBOutlet private var locationType: UILabel!
+    @IBOutlet private var locationCoordinates: UILabel!
+    @IBOutlet private var alertsLabel: UILabel!
+    @IBOutlet private var alertSwitch: UISwitch!
     @IBAction private func alertValueChanged(_ sender: UISwitch) {
         invokeUpdateAlert?(locationFromMap!.locationID, sender.isOn ? "true" : "false")
     }
@@ -83,14 +83,14 @@ final class LocationDetailViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
-    public var locationFromMap: Location?
+    var locationFromMap: Location?
     private var shouldShowLocationDetail: Bool = false
     private var invokeUpdateAlert: ((String, String) -> Void)?
     private var invokeGetLocationInfo: ((String, String?) -> Void)?
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -111,7 +111,7 @@ final class LocationDetailViewController: UIViewController {
         }
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     @objc private func callPhoneNumber(sender: UIButton) {
         let callablePhoneNumber = Location.getCallable(phoneNumber: locationPhone.text!)
@@ -120,16 +120,14 @@ final class LocationDetailViewController: UIViewController {
         }
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel, alertUpdate: Bool? = nil) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .initial(let initial):  self.renderInitialState(state: initial)
-            case .waiting:               self.renderWaitingState(alertUpdate: alertUpdate)
-            case .failure(let failure):  self.renderFailureState(state: failure)
-            case .success:               self.renderSuccessState()
-            }
+     func render(state: ViewModel, alertUpdate: Bool? = nil) {
+        switch state {
+        case .initial(let initial): renderInitialState(state: initial)
+        case .waiting:              renderWaitingState(alertUpdate: alertUpdate)
+        case .failure(let failure): renderFailureState(state: failure)
+        case .success:              renderSuccessState()
         }
     }
     
@@ -161,7 +159,7 @@ final class LocationDetailViewController: UIViewController {
         
         view.isHidden = !shouldShowLocationDetail
         if shouldShowLocationDetail {
-            (presentingViewController?.childViewControllers[0] as? SafetyZonesViewController)?.waitingIndicator.stopAnimating()
+            (presentingViewController?.children[0] as? SafetyZonesViewController)?.waitingIndicator.stopAnimating()
         }
     
         let limitedLatitude = Location.limitDigits(String(locationFromMap!.latitude), to: 5)
@@ -171,12 +169,12 @@ final class LocationDetailViewController: UIViewController {
         if locationFromMap!.category == "custom" {
             locationPhone.attributedText = NSAttributedString(
                 string: Contact.formatPhoneNumber(phoneNumber: locationFromMap!.phoneNumber),
-                attributes: [NSAttributedStringKey.underlineStyle : 1]
+                attributes: [NSAttributedString.Key.underlineStyle : 1]
             )
         } else {
             locationPhone.attributedText = NSAttributedString(
                 string: locationFromMap!.phoneNumber,
-                attributes: [NSAttributedStringKey.underlineStyle : 1]
+                attributes: [NSAttributedString.Key.underlineStyle : 1]
             )
         }
         

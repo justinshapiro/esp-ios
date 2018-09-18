@@ -10,7 +10,7 @@ import Foundation
 
 class AlertGroupsCoordinator: NSObject {
     private typealias ViewModel = AlertGroupsViewController.ViewModel
-    @IBOutlet weak private var viewController: AlertGroupsViewController!
+    @IBOutlet private var viewController: AlertGroupsViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()
@@ -27,7 +27,7 @@ class AlertGroupsCoordinator: NSObject {
             switch $0 {
             case .successWithData: break
             case .success:
-                ESPMobileAPI.addContactGroup(contactIDs: contactsForGroup.flatMap { $0["id"]! ?? nil }) {
+                ESPMobileAPI.addContactGroup(contactIDs: contactsForGroup.compactMap { $0["id"]! ?? nil }) {
                     switch $0 {
                     case .successWithData: break
                     case .success:

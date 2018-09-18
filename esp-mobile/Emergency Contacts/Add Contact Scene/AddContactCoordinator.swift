@@ -11,7 +11,7 @@ import Contacts
 
 final class AddContactCoordinator: NSObject {
     private typealias ViewModel = AddContactViewController.ViewModel
-    @IBOutlet weak private var viewController: AddContactViewController!
+    @IBOutlet private var viewController: AddContactViewController!
     
     private var invokeAddContact: ((String, String) -> Void)!
     

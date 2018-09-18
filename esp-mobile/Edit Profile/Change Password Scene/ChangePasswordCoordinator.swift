@@ -10,7 +10,7 @@ import Foundation
 
 final class ChangePasswordCoordinator: NSObject {
     private typealias ViewModel = ChangePasswordViewController.ViewModel
-    @IBOutlet weak private var viewController: ChangePasswordViewController!
+    @IBOutlet private var viewController: ChangePasswordViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()

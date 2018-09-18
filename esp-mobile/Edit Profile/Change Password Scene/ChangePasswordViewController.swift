@@ -10,7 +10,7 @@ import UIKit
 
 final class ChangePasswordViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case initial(Initial)
@@ -28,9 +28,9 @@ final class ChangePasswordViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var modalView: UIView! {
+    @IBOutlet private var modalView: UIView! {
         didSet {
             modalView.layer.cornerRadius = 5
             modalView.layer.masksToBounds = false
@@ -40,16 +40,16 @@ final class ChangePasswordViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var currentPassword: UITextField!
-    @IBOutlet weak private var newPassword: UITextField!
-    @IBOutlet weak private var verifyPassword: UITextField!
+    @IBOutlet private var currentPassword: UITextField!
+    @IBOutlet private var newPassword: UITextField!
+    @IBOutlet private var verifyPassword: UITextField!
     
     @IBOutlet private var fieldViews: [UIView]! {
         didSet {
@@ -64,13 +64,13 @@ final class ChangePasswordViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @IBOutlet weak private var changePasswordButton: UIButton! {
+    @IBOutlet private var changePasswordButton: UIButton! {
         didSet {
             changePasswordButton.layer.cornerRadius = 5
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -80,8 +80,8 @@ final class ChangePasswordViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
@@ -91,7 +91,7 @@ final class ChangePasswordViewController: UIViewController {
         sender.resignFirstResponder()
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var changePasswordAction: Target? {
         didSet {
@@ -99,23 +99,21 @@ final class ChangePasswordViewController: UIViewController {
         }
     }
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     // Dismisses keyboard when the user touches outside of the UITextField
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .initial(let initial):     self.renderInitialState(state: initial)
-            case .waiting:                  self.renderWaitingState()
-            case .failure(let failure):     self.renderFailureState(state: failure)
-            case .success:                  self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial): renderInitialState(state: initial)
+        case .waiting:              renderWaitingState()
+        case .failure(let failure): renderFailureState(state: failure)
+        case .success:              renderSuccessState()
         }
     }
     
@@ -160,7 +158,7 @@ final class ChangePasswordViewController: UIViewController {
     private func renderSuccessState() {
         dismiss(animated: true)
 
-        guard let viewController = presentingViewController!.childViewControllers[1] as? ProfileViewController else { return }
+        guard let viewController = presentingViewController!.children[1] as? ProfileViewController else { return }
         viewController.modalSuccessTransition()
     }
 }

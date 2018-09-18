@@ -10,7 +10,7 @@ import UIKit
 
 final class EditContactViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case preInitial(PreInitial)
@@ -34,11 +34,11 @@ final class EditContactViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var firstName: UITextField!
-    @IBOutlet weak private var lastName: UITextField!
-    @IBOutlet weak private var phone: UITextField!
+    @IBOutlet private var firstName: UITextField!
+    @IBOutlet private var lastName: UITextField!
+    @IBOutlet private var phone: UITextField!
     
     @IBOutlet private var fieldViews: [UIView]! {
         didSet {
@@ -53,7 +53,7 @@ final class EditContactViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var modalView: UIView! {
+    @IBOutlet private var modalView: UIView! {
         didSet {
             modalView.layer.cornerRadius = 5
             modalView.layer.masksToBounds = false
@@ -67,7 +67,7 @@ final class EditContactViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @IBOutlet weak private var submitButton: UIButton! {
+    @IBOutlet private var submitButton: UIButton! {
         didSet {
             submitButton.layer.cornerRadius = 5
         }
@@ -79,14 +79,14 @@ final class EditContactViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -96,20 +96,20 @@ final class EditContactViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    // MARK: Keyboard dismissal handlers
+    // MARK: - Keyboard dismissal handlers
     
     // Dismisses keyboard when "Done" button is clicked and performs cleanup
     @IBAction private func editingDidEnd(_ sender: UITextField) {
         sender.resignFirstResponder()
     }
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     // Dismisses keyboard when the user touches outside of the UITextField
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -130,24 +130,22 @@ final class EditContactViewController: UIViewController {
         }
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var invokeGetContact: ((String) -> Void)?
-    public var contactID: String?
+     var contactID: String?
     private var contactGroupID: String?
-    public var correspondingIndexPath: IndexPath?
+     var correspondingIndexPath: IndexPath?
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .preInitial(let preInitial): self.renderPreInitialState(state: preInitial)
-            case .initial(let initial):       self.renderInitialState(state: initial)
-            case .waiting:                    self.renderWaitingState()
-            case .failure(let failure):       self.renderFailureState(state: failure)
-            case .success:                    self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .preInitial(let preInitial): renderPreInitialState(state: preInitial)
+        case .initial(let initial):       renderInitialState(state: initial)
+        case .waiting:                    renderWaitingState()
+        case .failure(let failure):       renderFailureState(state: failure)
+        case .success:                    renderSuccessState()
         }
     }
     
@@ -160,7 +158,7 @@ final class EditContactViewController: UIViewController {
         errorView.isHidden = true
         view.isHidden = false
         contactGroupID = state.contactInfo.groupID
-        (presentingViewController?.childViewControllers[1] as? EmergencyContactsViewController)?.waitingIndicator.stopAnimating()
+        (presentingViewController?.children[1] as? EmergencyContactsViewController)?.waitingIndicator.stopAnimating()
         
         let name = state.contactInfo.name.components(separatedBy: " ")
         firstName.text = name[0]
@@ -200,7 +198,7 @@ final class EditContactViewController: UIViewController {
     private func renderSuccessState() {
         dismiss(animated: true)
         
-        let viewController = presentingViewController!.childViewControllers[1] as? EmergencyContactsViewController
+        let viewController = presentingViewController!.children[1] as? EmergencyContactsViewController
         viewController?.contactsForCell[correspondingIndexPath!.row]["phone"] = Contact.formatPhoneNumber(phoneNumber: phone.text!)
         
         viewController?.tableView.reloadData()

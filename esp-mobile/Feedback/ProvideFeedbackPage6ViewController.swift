@@ -10,7 +10,7 @@ import UIKit
 
 final class ProvideFeedbackPage6ViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case initial(Initial)
@@ -28,16 +28,16 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -47,14 +47,14 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    @IBOutlet weak private var alertReceivedSelection: UISegmentedControl!
-    @IBOutlet weak private var alertFunctionalityFeedback: UITextView! {
+    @IBOutlet private var alertReceivedSelection: UISegmentedControl!
+    @IBOutlet private var alertFunctionalityFeedback: UITextView! {
         didSet {
             alertFunctionalityFeedback.layer.cornerRadius = 5
             alertFunctionalityFeedback.layer.borderColor = UIColor.black.cgColor
@@ -63,13 +63,13 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var batterySlider: UISlider!
-    @IBOutlet weak private var batterySliderLabel: UILabel!
+    @IBOutlet private var batterySlider: UISlider!
+    @IBOutlet private var batterySliderLabel: UILabel!
     @IBAction private func batterySliderChanged(_ sender: UISlider) {
         batterySliderLabel.text = "\(Int(sender.value))%"
     }
     
-    @IBOutlet weak private var submitFeedbackButton: UIButton! {
+    @IBOutlet private var submitFeedbackButton: UIButton! {
         didSet {
             submitFeedbackButton.layer.cornerRadius = 5
         }
@@ -90,7 +90,7 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         view.endEditing(true)
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     var feedback: Feedback?
     var feedbackPosition: FeedbackPosition = .page6
@@ -100,12 +100,12 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         }
     }
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         collectFeedback()
-        (parent?.childViewControllers.last as? ProvideFeedbackPage5ViewController)?.feedback = feedback
+        (parent?.children.last as? ProvideFeedbackPage5ViewController)?.feedback = feedback
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,7 +113,7 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         restoreFeedback()
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     private func collectFeedback() {
         if feedback == nil {
@@ -138,16 +138,14 @@ final class ProvideFeedbackPage6ViewController: UIViewController {
         batterySliderChanged(batterySlider)
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch state {
-            case .initial(let initial): self.renderInitialState(state: initial)
-            case .waiting:              self.renderWaitingState()
-            case .failure(let failure): self.renderFailureState(state: failure)
-            case .success:              self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial): renderInitialState(state: initial)
+        case .waiting:              renderWaitingState()
+        case .failure(let failure): renderFailureState(state: failure)
+        case .success:              renderSuccessState()
         }
     }
     

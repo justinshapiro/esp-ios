@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     var window: UIWindow?
     var locationManager: CLLocationManager!
-    var backgroundTask = UIBackgroundTaskInvalid
+    var backgroundTask = UIBackgroundTaskIdentifier.invalid
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // prepare alert manager
         UserDefaults.standard.set("", forKey: "alertForLocationSent")
         
@@ -62,8 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         backgroundTask = application.beginBackgroundTask(withName: "ProximityCheck") {
-            application.endBackgroundTask(self.backgroundTask)
-            self.backgroundTask = UIBackgroundTaskInvalid
+            application.endBackgroundTask(convertToUIBackgroundTaskIdentifier(self.backgroundTask.rawValue))
+            self.backgroundTask = UIBackgroundTaskIdentifier.invalid
         }
         
         DispatchQueue.global().async {
@@ -85,3 +85,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func applicationDidBecomeActive(_ application: UIApplication) {}
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIBackgroundTaskIdentifier(_ input: Int) -> UIBackgroundTaskIdentifier {
+	return UIBackgroundTaskIdentifier(rawValue: input)
+}

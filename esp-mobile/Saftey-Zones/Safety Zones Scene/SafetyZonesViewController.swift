@@ -11,7 +11,7 @@ import UIKit
 
 final class SafetyZonesViewController: UIViewController {
 
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case preInitial(PreInitial)
@@ -36,15 +36,15 @@ final class SafetyZonesViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var milesLabel: UILabel! {
+    @IBOutlet private var milesLabel: UILabel! {
         didSet {
             milesLabel.text = "5 mi"
         }
     }
     
-    @IBOutlet weak private var radiusSlider: UISlider! {
+    @IBOutlet private var radiusSlider: UISlider! {
         didSet {
             radiusSlider.isEnabled = false
         }
@@ -59,9 +59,9 @@ final class SafetyZonesViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -71,7 +71,7 @@ final class SafetyZonesViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
@@ -96,7 +96,7 @@ final class SafetyZonesViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var filterView: UIView! {
+    @IBOutlet private var filterView: UIView! {
         didSet {
             filterView.layer.cornerRadius = 3
             filterView.layer.borderColor = UIColor.black.cgColor
@@ -109,7 +109,7 @@ final class SafetyZonesViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var enableFiltersButton: UIButton! {
+    @IBOutlet private var enableFiltersButton: UIButton! {
         didSet {
             enableFiltersButton.layer.cornerRadius = 5
         }
@@ -168,7 +168,7 @@ final class SafetyZonesViewController: UIViewController {
     
     @IBOutlet private var menuButton: UIBarButtonItem!
     @IBAction func unwindFromFeedback(segue: UIStoryboardSegue) {}
-    @IBOutlet weak private var mapView: MKMapView! {
+    @IBOutlet private var mapView: MKMapView! {
         didSet {
             mapView.delegate = self
         }
@@ -180,9 +180,9 @@ final class SafetyZonesViewController: UIViewController {
         performSegue(withIdentifier: "logOut", sender: self)
     }
     
-    @IBOutlet weak var distressModeLabel: UILabel!
+    @IBOutlet var distressModeLabel: UILabel!
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var locationToSend: Location?
     private var filtersShowing = false
@@ -191,7 +191,7 @@ final class SafetyZonesViewController: UIViewController {
     private var userLocation: CLLocation?
     private var displayedPins: [(SafetyZoneAnnotation, String)] = []
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -230,7 +230,7 @@ final class SafetyZonesViewController: UIViewController {
         }
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     @objc private func detailButtonClicked(_ sender: AnyObject) {
         waitingIndicator.startAnimating()
@@ -274,7 +274,7 @@ final class SafetyZonesViewController: UIViewController {
         })
     }
     
-    public func modalSegue(segue: String) {
+     func modalSegue(segue: String) {
         if segue == "logOut" {
             guard let shouldUnwind = UserDefaults.standard.object(forKey: "rootVCIsPresent") as? Bool else { return }
             
@@ -325,9 +325,9 @@ final class SafetyZonesViewController: UIViewController {
     
     private func regionToMiles() -> Int {
         let mRect = mapView.visibleMapRect
-        let eastMapPoint = MKMapPointMake(MKMapRectGetMinX(mRect), MKMapRectGetMidY(mRect))
-        let westMapPoint = MKMapPointMake(MKMapRectGetMaxX(mRect), MKMapRectGetMidY(mRect))
-        let currentDistWideInMeters = MKMetersBetweenMapPoints(eastMapPoint, westMapPoint)
+        let eastMapPoint = MKMapPoint.init(x: mRect.minX, y: mRect.midY)
+        let westMapPoint = MKMapPoint.init(x: mRect.maxX, y: mRect.midY)
+        let currentDistWideInMeters = eastMapPoint.distance(to: westMapPoint)
         let miles = currentDistWideInMeters / 1609.34  // number of meters in a mile
         
         return Int(miles)
@@ -339,18 +339,16 @@ final class SafetyZonesViewController: UIViewController {
         displayedPins.append((pin, location.category))
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .preInitial(let preInitial): self.renderPreInitialState(state: preInitial)
-            case .initial(let initial):       self.renderInitialState(state: initial)
-            case .waiting:                    self.renderWaitingState()
-            case .waitingWithFunctionality:   self.renderWaitingWithFunctionalityState()
-            case .failure(let failure):       self.renderFailureState(state: failure)
-            case .success:                    self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .preInitial(let preInitial): renderPreInitialState(state: preInitial)
+        case .initial(let initial):       renderInitialState(state: initial)
+        case .waiting:                    renderWaitingState()
+        case .waitingWithFunctionality:   renderWaitingWithFunctionalityState()
+        case .failure(let failure):       renderFailureState(state: failure)
+        case .success:                    renderSuccessState()
         }
     }
     
@@ -440,16 +438,16 @@ final class SafetyZonesViewController: UIViewController {
         waitingIndicator.stopAnimating()
     }
     
-    public func forceWaitingState(with message: String? = nil) {
+     func forceWaitingState(with message: String? = nil) {
         renderWaitingState(with: message)
     }
     
-    public func forceFailureState(with message: String) {
+     func forceFailureState(with message: String) {
         renderFailureState(state: ViewModel.Failure(message: message))
     }
 }
 
-// MARK: MKMapViewDelegate
+// MARK: - MKMapViewDelegate
 
 extension SafetyZonesViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
@@ -486,7 +484,7 @@ extension SafetyZonesViewController: MKMapViewDelegate {
                         let phoneNumber = location.phoneNumber
                         let attributedPhoneNumber = NSAttributedString(
                             string: phoneNumber,
-                            attributes: [NSAttributedStringKey.underlineStyle : 1]
+                            attributes: [NSAttributedString.Key.underlineStyle : 1]
                         )
                         
                         let views = Bundle.main.loadNibNamed("SafetyZoneAnnotationView", owner: nil, options: nil)
@@ -515,7 +513,7 @@ extension SafetyZonesViewController: MKMapViewDelegate {
             } else {
                 let attributedPhoneNumber = NSAttributedString(
                     string: Contact.formatPhoneNumber(phoneNumber: safetyZoneAnnotation.location.phoneNumber),
-                    attributes: [NSAttributedStringKey.underlineStyle : 1]
+                    attributes: [NSAttributedString.Key.underlineStyle : 1]
                 )
                 
                 let views = Bundle.main.loadNibNamed("SafetyZoneAnnotationView", owner: nil, options: nil)

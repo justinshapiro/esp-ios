@@ -10,7 +10,7 @@ import Foundation
 
 final class ProvideFeedbackCoordinator: NSObject {
     private typealias ViewModel = ProvideFeedbackPage6ViewController.ViewModel
-    @IBOutlet weak private var viewController: ProvideFeedbackPage6ViewController!
+    @IBOutlet private var viewController: ProvideFeedbackPage6ViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()

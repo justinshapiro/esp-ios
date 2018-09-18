@@ -10,7 +10,7 @@ import UIKit
 
 final class CustomLocationsViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case preInitial(PreInitial)
@@ -33,9 +33,9 @@ final class CustomLocationsViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var tableView: UITableView! {
+    @IBOutlet private var tableView: UITableView! {
         didSet {
             tableView.delegate = self
             tableView.dataSource = self
@@ -43,14 +43,14 @@ final class CustomLocationsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -60,19 +60,19 @@ final class CustomLocationsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
 
-    // MARK: Properties
+    // MARK: - Properties
     
     private var invokeDeleteCustomLocation: ((String) -> Void)?
     private var invokeReadyForUpdate: (() -> Void)?
     private var locationsForCell: [[String: String]] = []
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -86,17 +86,15 @@ final class CustomLocationsViewController: UIViewController {
         invokeReadyForUpdate?()
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .preInitial(let preInitial): self.renderPreInitialState(state: preInitial)
-            case .initial(let initial):       self.renderInitialState(state: initial)
-            case .waiting:                    self.renderWaitingState()
-            case .failure(let failure):       self.renderFailureState(state: failure)
-            case .success:                    self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .preInitial(let preInitial): renderPreInitialState(state: preInitial)
+        case .initial(let initial):       renderInitialState(state: initial)
+        case .waiting:                    renderWaitingState()
+        case .failure(let failure):       renderFailureState(state: failure)
+        case .success:                    renderSuccessState()
         }
     }
     
@@ -128,7 +126,7 @@ final class CustomLocationsViewController: UIViewController {
     }
 }
 
-// MARK: UITableViewDelegate / UITableViewDataSource
+// MARK: - UITableViewDelegate / UITableViewDataSource
 
 extension CustomLocationsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,7 +174,7 @@ extension CustomLocationsViewController: UITableViewDelegate, UITableViewDataSou
 }
 
 final class LocationCell: UITableViewCell {
-    @IBOutlet weak fileprivate var locationIcon: UIImageView!
-    @IBOutlet weak fileprivate var locationName: UILabel!
-    @IBOutlet weak fileprivate var locationGeo: UILabel!
+    @IBOutlet fileprivate var locationIcon: UIImageView!
+    @IBOutlet fileprivate var locationName: UILabel!
+    @IBOutlet fileprivate var locationGeo: UILabel!
 }

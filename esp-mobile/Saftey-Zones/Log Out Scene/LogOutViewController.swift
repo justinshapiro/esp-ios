@@ -10,7 +10,7 @@ import UIKit
 
 final class LogOutViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case initial(Initial)
@@ -22,9 +22,9 @@ final class LogOutViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
 
-    @IBOutlet weak private var modalView: UIView! {
+    @IBOutlet private var modalView: UIView! {
         didSet {
             modalView.layer.cornerRadius = 5
             modalView.layer.masksToBounds = false
@@ -43,26 +43,24 @@ final class LogOutViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var invokeLogOut: (() -> Void)?
     private var invokeStoreParentReference: ((LogOutViewController) -> Void)?
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         invokeStoreParentReference?(self)
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch state {
-            case .initial(let initial): self.renderInitialState(state: initial)
-            case .waiting:              self.renderWaitingState()
-            }
+    func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial): renderInitialState(state: initial)
+        case .waiting:              renderWaitingState()
         }
     }
     
@@ -72,6 +70,6 @@ final class LogOutViewController: UIViewController {
     }
     
     private func renderWaitingState() {
-        (presentingViewController?.childViewControllers[0] as? SafetyZonesViewController)?.forceWaitingState(with: "Logging out...")
+        (presentingViewController?.children[0] as? SafetyZonesViewController)?.forceWaitingState(with: "Logging out...")
     }
 }

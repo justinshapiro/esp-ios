@@ -10,7 +10,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case initial(Initial)
@@ -29,34 +29,34 @@ final class ProfileViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
 
-    @IBOutlet weak private var firstName: UITextField! {
+    @IBOutlet private var firstName: UITextField! {
         didSet {
             firstName.isEnabled = false
         }
     }
     
-    @IBOutlet weak private var lastName: UITextField! {
+    @IBOutlet private var lastName: UITextField! {
         didSet {
             lastName.isEnabled = false
         }
     }
     
-    @IBOutlet weak private var email: UITextField! {
+    @IBOutlet private var email: UITextField! {
         didSet {
             email.isEnabled = false
         }
     }
     
-    @IBOutlet weak private var username: UITextField! {
+    @IBOutlet private var username: UITextField! {
         didSet {
             username.isEnabled = false
             username.alpha = 0.5
         }
     }
     
-    @IBOutlet weak private var tableView: UITableView! {
+    @IBOutlet private var tableView: UITableView! {
         didSet {
             tableView.delegate = self
             tableView.dataSource = self
@@ -73,14 +73,14 @@ final class ProfileViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -90,20 +90,20 @@ final class ProfileViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    @IBOutlet weak private var updateButton: UIBarButtonItem!
+    @IBOutlet private var updateButton: UIBarButtonItem!
     
     // Dismisses keyboard when "Done" button is clicked and performs cleanup
     @IBAction func editingDidEnd(_ sender: UITextField) {
         sender.resignFirstResponder()
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var updateAction: Target? {
         didSet {
@@ -111,23 +111,21 @@ final class ProfileViewController: UIViewController {
         }
     }
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     // Dismisses keyboard when the user touches outside of the UITextField
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .initial(let initial): self.renderInitialState(state: initial)
-            case .waiting:              self.renderWaitingState()
-            case .failure(let failure): self.renderFailureState(state: failure)
-            case .success:              self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial): renderInitialState(state: initial)
+        case .waiting:              renderWaitingState()
+        case .failure(let failure): renderFailureState(state: failure)
+        case .success:              renderSuccessState()
         }
     }
     
@@ -210,12 +208,12 @@ final class ProfileViewController: UIViewController {
         )
     }
     
-    public func modalSuccessTransition() {
+     func modalSuccessTransition() {
         renderSuccessState()
     }
 }
 
-// MARK: UITableViewDelegate / UITableViewDataSource
+// MARK: - UITableViewDelegate / UITableViewDataSource
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

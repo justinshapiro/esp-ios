@@ -12,7 +12,7 @@ import GooglePlaces
 
 final class AddLocationCoordinator: NSObject, CLLocationManagerDelegate {
     private typealias ViewModel = AddLocationViewController.ViewModel
-    @IBOutlet weak private var viewController: AddLocationViewController!
+    @IBOutlet private var viewController: AddLocationViewController!
     
     private var locationManager: CLLocationManager!
     private let placesClient = GMSPlacesClient.shared()
@@ -93,7 +93,7 @@ final class AddLocationCoordinator: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    // MARK: CLLocationManagerDelegate
+    // MARK: - CLLocationManagerDelegate
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let searchResultsQuery = { (query: String, completion: @escaping ([Location]) -> Void) in

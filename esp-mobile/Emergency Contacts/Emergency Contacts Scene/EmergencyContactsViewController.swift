@@ -10,7 +10,7 @@ import UIKit
 
 final class EmergencyContactsViewController: UIViewController {
 
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case preInitial(PreInitial)
@@ -32,9 +32,9 @@ final class EmergencyContactsViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak var tableView: UITableView! {
+    @IBOutlet var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
@@ -42,14 +42,14 @@ final class EmergencyContactsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -59,19 +59,19 @@ final class EmergencyContactsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
-    public var contactsForCell: [[String: String?]] = []
+     var contactsForCell: [[String: String?]] = []
     private var invokeDeleteContact: ((String) -> Void)?
     private var invokeReadyForUpdate: (() -> Void)?
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -94,21 +94,19 @@ final class EmergencyContactsViewController: UIViewController {
             waitingIndicator.startAnimating()
         } else if segue.identifier == "manageAlertGroups" {
             let viewController = segue.destination as? AlertGroupsViewController
-            viewController?.contactsForGroup = contactsForCell.flatMap { if $0["group_id"]! != nil { return $0 } else { return nil } }
+            viewController?.contactsForGroup = contactsForCell.compactMap { if $0["group_id"]! != nil { return $0 } else { return nil } }
             viewController?.currentContacts = contactsForCell.filter { currentContact in viewController?.contactsForGroup.index { $0["id"]!! == currentContact["id"]!! } == nil }
         }
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .preInitial(let preInitial): self.renderPreInitialState(state: preInitial)
-            case .initial(let initial):       self.renderInitialState(state: initial)
-            case .waiting:                    self.renderWaitingState()
-            case .failure(let failure):       self.renderFailureState(state: failure)
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .preInitial(let preInitial): renderPreInitialState(state: preInitial)
+        case .initial(let initial):       renderInitialState(state: initial)
+        case .waiting:                    renderWaitingState()
+        case .failure(let failure):       renderFailureState(state: failure)
         }
     }
     
@@ -141,7 +139,7 @@ final class EmergencyContactsViewController: UIViewController {
     }
 }
 
-// MARK: UITableViewDelegate / UITableViewDataSource
+// MARK: - UITableViewDelegate / UITableViewDataSource
 
 extension EmergencyContactsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -209,7 +207,7 @@ extension EmergencyContactsViewController: UITableViewDelegate, UITableViewDataS
 }
 
 final class ContactCell: UITableViewCell {
-    @IBOutlet weak fileprivate var nameColor: UIImageView! {
+    @IBOutlet fileprivate var nameColor: UIImageView! {
         didSet {
             nameColor.backgroundColor = UIColor.lightGray
             nameColor.layer.borderWidth = 1.0
@@ -220,7 +218,7 @@ final class ContactCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak fileprivate var initialLabel: UILabel!
-    @IBOutlet weak fileprivate var nameLabel: UILabel!
-    @IBOutlet weak fileprivate var phoneNumberLabel: UILabel!
+    @IBOutlet fileprivate var initialLabel: UILabel!
+    @IBOutlet fileprivate var nameLabel: UILabel!
+    @IBOutlet fileprivate var phoneNumberLabel: UILabel!
 }

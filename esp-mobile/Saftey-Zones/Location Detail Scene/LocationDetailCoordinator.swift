@@ -11,7 +11,7 @@ import UIKit
 
 final class LocationDetailCoordinator: NSObject {
     private typealias ViewModel = LocationDetailViewController.ViewModel
-    @IBOutlet weak private var viewController: LocationDetailViewController!
+    @IBOutlet private var viewController: LocationDetailViewController!
     
     private var invokeUpdateAlert: ((String, String) -> Void)!
     private var invokeGetLocationInfo: ((String, String?) -> Void)!

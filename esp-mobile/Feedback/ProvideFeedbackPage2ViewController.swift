@@ -10,11 +10,11 @@ import UIKit
 
 final class ProvideFeedbackPage2ViewController: UIViewController, FeedbackProtocol {
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var experienceLength: UISegmentedControl!
-    @IBOutlet weak private var experienceIntuition: UISegmentedControl!
-    @IBOutlet weak private var positiveOpinionBox: UITextView! {
+    @IBOutlet private var experienceLength: UISegmentedControl!
+    @IBOutlet private var experienceIntuition: UISegmentedControl!
+    @IBOutlet private var positiveOpinionBox: UITextView! {
         didSet {
             positiveOpinionBox.layer.cornerRadius = 5
             positiveOpinionBox.layer.borderColor = UIColor.black.cgColor
@@ -23,7 +23,7 @@ final class ProvideFeedbackPage2ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var negativeOpinionBox: UITextView! {
+    @IBOutlet private var negativeOpinionBox: UITextView! {
         didSet {
             negativeOpinionBox.layer.cornerRadius = 5
             negativeOpinionBox.layer.borderColor = UIColor.black.cgColor
@@ -32,13 +32,13 @@ final class ProvideFeedbackPage2ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var lookFeelSlider: UISlider!
-    @IBOutlet weak private var lookFeelSliderLabel: UILabel!
+    @IBOutlet private var lookFeelSlider: UISlider!
+    @IBOutlet private var lookFeelSliderLabel: UILabel!
     @IBAction private func lookFeelSliderChanged(_ sender: UISlider) {
         lookFeelSliderLabel.text = "\(Int(sender.value)) out of 10"
     }
     
-    @IBOutlet weak private var nextPageButton: UIButton! {
+    @IBOutlet private var nextPageButton: UIButton! {
         didSet {
             nextPageButton.layer.cornerRadius = 5
         }
@@ -53,12 +53,12 @@ final class ProvideFeedbackPage2ViewController: UIViewController, FeedbackProtoc
         view.endEditing(true)
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     var feedback: Feedback?
     var feedbackPosition: FeedbackPosition = .page2
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let viewController = segue.destination as? ProvideFeedbackPage3ViewController else { return }
@@ -69,7 +69,7 @@ final class ProvideFeedbackPage2ViewController: UIViewController, FeedbackProtoc
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         collectFeedback()
-        (parent?.childViewControllers.last as? ProvideFeedbackPage1ViewController)?.feedback = feedback
+        (parent?.children.last as? ProvideFeedbackPage1ViewController)?.feedback = feedback
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,7 +77,7 @@ final class ProvideFeedbackPage2ViewController: UIViewController, FeedbackProtoc
         restoreFeedback()
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     func collectFeedback() {
         if feedback == nil {

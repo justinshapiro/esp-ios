@@ -10,7 +10,7 @@ import Foundation
 
 final class LoginSceneCoordinator: NSObject {
     private typealias ViewModel = LoginSceneViewController.ViewModel
-    @IBOutlet weak private var viewController: LoginSceneViewController!
+    @IBOutlet private var viewController: LoginSceneViewController!
     
     private var invokeReadyForUpdate: (() -> Void)!
     
@@ -35,7 +35,7 @@ final class LoginSceneCoordinator: NSObject {
         viewController.render(state: ViewModel.waiting)
         
         ESPMobileAPI.login(loginID: credentials.loginID, password: credentials.password) { result in
-            switch (result) {
+            switch result {
             case .successWithData: break
             case .success:
                 self.viewController.render(state: ViewModel.success)

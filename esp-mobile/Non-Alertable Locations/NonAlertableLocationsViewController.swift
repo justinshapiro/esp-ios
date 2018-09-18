@@ -10,7 +10,7 @@ import UIKit
 
 final class NonAlertableLocationsViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case preInitial(PreInitial)
@@ -33,7 +33,7 @@ final class NonAlertableLocationsViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
     @IBAction private func globalAlertDisable(_ sender: UISwitch) {
         if sender.isOn {
@@ -51,7 +51,7 @@ final class NonAlertableLocationsViewController: UIViewController {
         tableView.reloadData()
     }
     
-    @IBOutlet weak private var tableView: UITableView! {
+    @IBOutlet private var tableView: UITableView! {
         didSet {
             tableView.delegate = self
             tableView.dataSource = self
@@ -59,14 +59,14 @@ final class NonAlertableLocationsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -76,20 +76,20 @@ final class NonAlertableLocationsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var locationsForCell: [[String: String]] = []
     private var shouldDisableExceptionCells = false
     private var invokeDeleteAlertable: ((String) -> Void)?
     private var invokeReadyForUpdate: (() -> Void)?
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -103,17 +103,15 @@ final class NonAlertableLocationsViewController: UIViewController {
         invokeReadyForUpdate?()
     }
 
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .preInitial(let preInitial): self.renderPreInitialState(state: preInitial)
-            case .initial(let initial):       self.renderInitialState(state: initial)
-            case .waiting:                    self.renderWaitingState()
-            case .failure(let failure):       self.renderFailureState(state: failure)
-            case .success:                    self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .preInitial(let preInitial): renderPreInitialState(state: preInitial)
+        case .initial(let initial):       renderInitialState(state: initial)
+        case .waiting:                    renderWaitingState()
+        case .failure(let failure):       renderFailureState(state: failure)
+        case .success:                    renderSuccessState()
         }
     }
     
@@ -152,7 +150,7 @@ final class NonAlertableLocationsViewController: UIViewController {
     }
 }
 
-// MARK: UITableViewDelegate / UITableViewDataSource
+// MARK: - UITableViewDelegate / UITableViewDataSource
 
 extension NonAlertableLocationsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -232,11 +230,11 @@ extension NonAlertableLocationsViewController: UITableViewDelegate, UITableViewD
 }
 
 final class DisableAlertsCell: UITableViewCell {
-    @IBOutlet weak fileprivate var disableAlertsSwitch: UISwitch!
+    @IBOutlet fileprivate var disableAlertsSwitch: UISwitch!
 }
 
 final class ExceptionCell: UITableViewCell {
-    @IBOutlet weak fileprivate var exceptionName: UILabel!
-    @IBOutlet weak fileprivate var exceptionLocation: UILabel!
-    @IBOutlet weak fileprivate var exceptionIcon: UIImageView!
+    @IBOutlet fileprivate var exceptionName: UILabel!
+    @IBOutlet fileprivate var exceptionLocation: UILabel!
+    @IBOutlet fileprivate var exceptionIcon: UIImageView!
 }

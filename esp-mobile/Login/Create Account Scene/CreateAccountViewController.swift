@@ -10,7 +10,7 @@ import UIKit
 
 final class CreateAccountViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case initial(Initial)
@@ -28,25 +28,25 @@ final class CreateAccountViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var firstName: UITextField!
-    @IBOutlet weak private var lastName: UITextField!
-    @IBOutlet weak private var email: UITextField!
-    @IBOutlet weak private var username: UITextField!
-    @IBOutlet weak private var password: UITextField!
-    @IBOutlet weak private var confirmPassword: UITextField!
+    @IBOutlet private var firstName: UITextField!
+    @IBOutlet private var lastName: UITextField!
+    @IBOutlet private var email: UITextField!
+    @IBOutlet private var username: UITextField!
+    @IBOutlet private var password: UITextField!
+    @IBOutlet private var confirmPassword: UITextField!
     
     @IBAction private func willCancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
 
-    @IBOutlet weak private var facebookButton: UIButton! {
+    @IBOutlet private var facebookButton: UIButton! {
         didSet {
             facebookButton.layer.masksToBounds = true
             facebookButton.layer.cornerRadius = 5
         }
     }
     
-    @IBOutlet weak private var createAccountButton: UIButton! {
+    @IBOutlet private var createAccountButton: UIButton! {
         didSet {
             createAccountButton.layer.cornerRadius = 5
         }
@@ -69,14 +69,14 @@ final class CreateAccountViewController: UIViewController {
         activeTag = sender.tag
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -86,8 +86,8 @@ final class CreateAccountViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
@@ -99,7 +99,7 @@ final class CreateAccountViewController: UIViewController {
         sender.resignFirstResponder()
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     // storage for the height of the keyboard so we don't loose it due to asyncronous events
     private var appKeyboardSize: CGFloat?
@@ -110,7 +110,7 @@ final class CreateAccountViewController: UIViewController {
         }
     }
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     // Dismisses keyboard when the user touches outside of the UITextField
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -125,14 +125,14 @@ final class CreateAccountViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
-            name: NSNotification.Name.UIKeyboardWillShow,
+            name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
         
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillHide),
-            name: NSNotification.Name.UIKeyboardWillHide,
+            name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
     }
@@ -140,15 +140,15 @@ final class CreateAccountViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    // MARK: Selector functions that adjust the view based on the visibility of the keyboard
+    // MARK: - Selector functions that adjust the view based on the visibility of the keyboard
     
     @objc private func keyboardWillShow(notification: NSNotification) {
         if activeTag > 2 {
-            if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 if appKeyboardSize == nil {
                     appKeyboardSize = keyboardSize.height
                 }
@@ -162,7 +162,7 @@ final class CreateAccountViewController: UIViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         if activeTag > 2 {
-            if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 if appKeyboardSize == nil {
                     appKeyboardSize = keyboardSize.height
                 }
@@ -174,16 +174,14 @@ final class CreateAccountViewController: UIViewController {
         }
     }
     
-    // MARK: State configurations
+    // MARK: - State configurations
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .initial(let initial): self.renderInitialState(state: initial)
-            case .waiting:              self.renderWaitingState()
-            case .failure(let failure): self.renderFailureState(state: failure)
-            case .success:              self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial): renderInitialState(state: initial)
+        case .waiting:              renderWaitingState()
+        case .failure(let failure): renderFailureState(state: failure)
+        case .success:              renderSuccessState()
         }
     }
     

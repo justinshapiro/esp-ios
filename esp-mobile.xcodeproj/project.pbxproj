@@ -309,8 +309,8 @@
 		C550C3DC1FAEF88900A1D0F7 /* Emergency Contacts Scene */ = {
 			isa = PBXGroup;
 			children = (
-				C550C3DF1FAEF8C100A1D0F7 /* EmergencyContactsCoordinator.swift */,
 				C550C3E11FAEFFED00A1D0F7 /* EmergencyContactsViewController.swift */,
+				C550C3DF1FAEF8C100A1D0F7 /* EmergencyContactsCoordinator.swift */,
 			);
 			path = "Emergency Contacts Scene";
 			sourceTree = "<group>";
@@ -551,6 +551,7 @@
 				TargetAttributes = {
 					C5076FDC1F9871C400B93828 = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -639,7 +640,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -897,7 +898,7 @@
 				PROVISIONING_PROFILE = "1e1e5edd-3e08-40ee-bfd9-84c6dbe0da09";
 				PROVISIONING_PROFILE_SPECIFIER = "ESP Development";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -923,7 +924,7 @@
 				PROVISIONING_PROFILE = "8d467b18-127d-4b0d-a56b-992dc8fc2608";
 				PROVISIONING_PROFILE_SPECIFIER = "ESP Development";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

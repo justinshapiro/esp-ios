@@ -10,7 +10,7 @@ import Foundation
 
 final class CreateAccountCoordinator: NSObject {
     private typealias ViewModel = CreateAccountViewController.ViewModel
-    @IBOutlet weak private var viewController: CreateAccountViewController!
+    @IBOutlet private var viewController: CreateAccountViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()
@@ -20,27 +20,27 @@ final class CreateAccountCoordinator: NSObject {
     private func createAccount(userInfo: UserInfo) {
         viewController.render(state: .waiting)
         
-        if userInfo.name == "" {
+        if userInfo.name.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "Entering your name is required.",
                 submit: { self.createAccount(userInfo: $0) }
             )))
-        } else if userInfo.email == "" {
+        } else if userInfo.email.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "Entering your email is required.",
                 submit: { self.createAccount(userInfo: $0) }
                 )))
-        } else if userInfo.password == "" {
+        } else if userInfo.password.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "Entering your password is required.",
                 submit: { self.createAccount(userInfo: $0) }
                 )))
-        } else if userInfo.confirmPassword == "" {
+        } else if userInfo.confirmPassword.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "Entering your password twice is required.",
                 submit: { self.createAccount(userInfo: $0) }
                 )))
-        } else if userInfo.username == "" {
+        } else if userInfo.username.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "Entering your username is required.",
                 submit: { self.createAccount(userInfo: $0) }
@@ -52,7 +52,7 @@ final class CreateAccountCoordinator: NSObject {
                 )))
         } else {
             ESPMobileAPI.addUserAndLogin(userInfo: userInfo) { result in
-                switch (result) {
+                switch result {
                 case .successWithData: break
                 case .success: self.viewController.render(state: .success)
                 case .failure(let failure):

@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 
 final class SafetyZoneAnnotationView: UIView {
-    @IBOutlet weak var showDetailButton: UIButton!
-    @IBOutlet weak var locationName: UILabel!
-    @IBOutlet weak var locationPhone: UILabel!
-    @IBOutlet weak var locationAddress: UILabel!
+    @IBOutlet var showDetailButton: UIButton!
+    @IBOutlet var locationName: UILabel!
+    @IBOutlet var locationPhone: UILabel!
+    @IBOutlet var locationAddress: UILabel!
     
-    @IBOutlet weak var annotationView: UIView! {
+    @IBOutlet var annotationView: UIView! {
         didSet {
             annotationView.layer.borderColor = UIColor.black.cgColor
             annotationView.layer.borderWidth = 1

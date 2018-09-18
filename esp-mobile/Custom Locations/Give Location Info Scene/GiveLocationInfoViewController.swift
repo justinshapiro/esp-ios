@@ -10,7 +10,7 @@ import UIKit
 
 final class GiveLocationInfoViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case initial(Initial)
@@ -28,9 +28,9 @@ final class GiveLocationInfoViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var modalView: UIView! {
+    @IBOutlet private var modalView: UIView! {
         didSet {
             modalView.layer.cornerRadius = 5
             modalView.layer.masksToBounds = false
@@ -44,16 +44,16 @@ final class GiveLocationInfoViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @IBOutlet weak private var saveButton: UIButton! {
+    @IBOutlet private var saveButton: UIButton! {
         didSet {
             saveButton.layer.cornerRadius = 5
         }
     }
     
-    @IBOutlet weak private var locationField: UILabel!
-    @IBOutlet weak private var nameField: UITextField!
-    @IBOutlet weak private var addressField: UITextField!
-    @IBOutlet weak private var phoneField: UITextField!
+    @IBOutlet private var locationField: UILabel!
+    @IBOutlet private var nameField: UITextField!
+    @IBOutlet private var addressField: UITextField!
+    @IBOutlet private var phoneField: UITextField!
     
     @IBOutlet private var fieldViews: [UIView]! {
         didSet {
@@ -68,7 +68,7 @@ final class GiveLocationInfoViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var descriptionField: UITextView! {
+    @IBOutlet private var descriptionField: UITextView! {
         didSet {
             descriptionField.delegate = self
             descriptionField.layer.masksToBounds = false
@@ -85,14 +85,14 @@ final class GiveLocationInfoViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -102,8 +102,8 @@ final class GiveLocationInfoViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
@@ -113,25 +113,25 @@ final class GiveLocationInfoViewController: UIViewController {
         sender.resignFirstResponder()
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private let textViewPlaceholder = "Description (Optional)"
-    public var latitudeFromMap: Double?
-    public var longitudeFromMap: Double?
+     var latitudeFromMap: Double?
+     var longitudeFromMap: Double?
     private var saveLocationAction: Target? {
         didSet {
             saveButton.addTarget(saveLocationAction, action: #selector(Target.action), for: .touchUpInside)
         }
     }
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     // Dismisses keyboard when the user touches outside of the UITextField
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     
-    // MARK: UITextViewDelegate
+    // MARK: - UITextViewDelegate
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.darkGray {
@@ -149,16 +149,14 @@ final class GiveLocationInfoViewController: UIViewController {
         descriptionField.resignFirstResponder()
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .initial(let initial): self.renderInitialState(state: initial)
-            case .waiting:              self.renderWaitingState()
-            case .failure(let failure): self.renderFailureState(state: failure)
-            case .success:              self.renderSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial): renderInitialState(state: initial)
+        case .waiting:              renderWaitingState()
+        case .failure(let failure): renderFailureState(state: failure)
+        case .success:              renderSuccessState()
         }
     }
     
@@ -218,7 +216,7 @@ final class GiveLocationInfoViewController: UIViewController {
         
         dismiss(animated: true)
         
-        guard let viewController = presentingViewController?.childViewControllers[2] as? AddLocationViewController else { return }
+        guard let viewController = presentingViewController?.children[2] as? AddLocationViewController else { return }
         viewController.modalSuccessTransition()
     }
 }

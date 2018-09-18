@@ -10,7 +10,7 @@ import Foundation
 
 final class ManualContactCoordinator: NSObject {
     private typealias ViewModel = ManualContactViewController.ViewModel
-    @IBOutlet weak private var viewController: ManualContactViewController!
+    @IBOutlet private var viewController: ManualContactViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()
@@ -20,12 +20,12 @@ final class ManualContactCoordinator: NSObject {
     private func addManualContact(contact: Contact) {
         viewController.render(state: .waiting)
         
-        if contact.name == "" {
+        if contact.name.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "Contact name is required.",
                 submit: { self.addManualContact(contact: $0) }
             )))
-        } else if contact.phone == "" {
+        } else if contact.phone.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "Contact phone number is required.",
                 submit: { self.addManualContact(contact: $0) }

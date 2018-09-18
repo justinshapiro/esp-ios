@@ -10,7 +10,7 @@ import Foundation
 
 final class EditContactCoordinator: NSObject {
     private typealias ViewModel = EditContactViewController.ViewModel
-    @IBOutlet weak private var viewController: EditContactViewController!
+    @IBOutlet private var viewController: EditContactViewController!
     
     private var invokeGetContact: ((String) -> Void)!
     

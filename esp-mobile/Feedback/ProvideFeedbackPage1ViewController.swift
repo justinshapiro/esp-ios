@@ -10,15 +10,15 @@ import UIKit
 
 final class ProvideFeedbackPage1ViewController: UIViewController, FeedbackProtocol {
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var rateStar1: UIButton!
-    @IBOutlet weak private var rateStar2: UIButton!
-    @IBOutlet weak private var rateStar3: UIButton!
-    @IBOutlet weak private var rateStar4: UIButton!
-    @IBOutlet weak private var rateStar5: UIButton!
+    @IBOutlet private var rateStar1: UIButton!
+    @IBOutlet private var rateStar2: UIButton!
+    @IBOutlet private var rateStar3: UIButton!
+    @IBOutlet private var rateStar4: UIButton!
+    @IBOutlet private var rateStar5: UIButton!
 
-    @IBOutlet weak private var positiveOpinionBox: UITextView! {
+    @IBOutlet private var positiveOpinionBox: UITextView! {
         didSet {
             positiveOpinionBox.layer.cornerRadius = 5
             positiveOpinionBox.layer.borderColor = UIColor.black.cgColor
@@ -27,7 +27,7 @@ final class ProvideFeedbackPage1ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var negativeOpinionBox: UITextView! {
+    @IBOutlet private var negativeOpinionBox: UITextView! {
         didSet {
             negativeOpinionBox.layer.cornerRadius = 5
             negativeOpinionBox.layer.borderColor = UIColor.black.cgColor
@@ -36,21 +36,21 @@ final class ProvideFeedbackPage1ViewController: UIViewController, FeedbackProtoc
         }
     }
     
-    @IBOutlet weak private var usefulSlider: UISlider!
-    @IBOutlet weak private var lookFeedSlider: UISlider!
-    @IBOutlet weak private var recommendSwitch: UISegmentedControl!
-    @IBOutlet weak private var nextPageButton: UIButton! {
+    @IBOutlet private var usefulSlider: UISlider!
+    @IBOutlet private var lookFeedSlider: UISlider!
+    @IBOutlet private var recommendSwitch: UISegmentedControl!
+    @IBOutlet private var nextPageButton: UIButton! {
         didSet {
             nextPageButton.layer.cornerRadius = 5
         }
     }
     
-    @IBOutlet weak private var usefulSliderLabel: UILabel!
+    @IBOutlet private var usefulSliderLabel: UILabel!
     @IBAction private func usefulSliderChanged(_ sender: UISlider) {
         usefulSliderLabel.text = "\(Int(sender.value)) out of 10"
     }
     
-    @IBOutlet weak private var lookFeelSliderLabel: UILabel!
+    @IBOutlet private var lookFeelSliderLabel: UILabel!
     @IBAction private func lookFeelSliderChanged(_ sender: UISlider) {
         lookFeelSliderLabel.text = "\(Int(sender.value)) out of 10"
     }
@@ -82,12 +82,12 @@ final class ProvideFeedbackPage1ViewController: UIViewController, FeedbackProtoc
         view.endEditing(true)
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     var feedback: Feedback?
     var feedbackPosition: FeedbackPosition = .page1
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let viewController = segue.destination as? ProvideFeedbackPage2ViewController else { return }
@@ -105,7 +105,7 @@ final class ProvideFeedbackPage1ViewController: UIViewController, FeedbackProtoc
         restoreFeedback()
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     func collectFeedback() {
         if feedback == nil {

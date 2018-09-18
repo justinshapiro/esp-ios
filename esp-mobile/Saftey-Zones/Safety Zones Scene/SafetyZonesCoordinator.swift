@@ -11,7 +11,7 @@ import MapKit
 
 final class SafetyZonesCoordinator: NSObject, CLLocationManagerDelegate {
     private typealias ViewModel = SafetyZonesViewController.ViewModel
-    @IBOutlet weak private var viewController: SafetyZonesViewController!
+    @IBOutlet private var viewController: SafetyZonesViewController!
     
     private var locationManager: CLLocationManager!
     private var invokeGetLocation: ((String, @escaping (Location?) -> Void) -> Void)!
@@ -50,14 +50,14 @@ final class SafetyZonesCoordinator: NSObject, CLLocationManagerDelegate {
         let userLongitude = String(userLocation.coordinate.longitude as Double)
         
         ESPMobileAPI.safetyZones(latitude: userLatitude, longitude: userLongitude, radius: String(milesToMeters(20))) { result in
-            switch (result) {
+            switch result {
             case .success: break
             case .successWithData(let data):
                 guard let locations = data.object as? [Location] else { return }
                 
                 if UserDefaults.standard.value(forKey: "User Name") == nil {
                     ESPMobileAPI.getUserInfo { result in
-                        switch (result) {
+                        switch result {
                         case .success: break
                         case .successWithData(let data):
                             guard let userInfo = data.object as? UserInfo else { return }
@@ -96,13 +96,13 @@ final class SafetyZonesCoordinator: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    // MARK: Helper methods
+    // MARK: - Helper methods
     
     fileprivate func milesToMeters(_ miles: Int) -> Int {
         return Int(Double(miles) * 1609.344)
     }
     
-    // MARK: CLLocationManagerDelegate
+    // MARK: - CLLocationManagerDelegate
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation: CLLocation = locations[0] as CLLocation

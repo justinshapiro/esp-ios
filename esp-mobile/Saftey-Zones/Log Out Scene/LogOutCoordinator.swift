@@ -10,7 +10,7 @@ import Foundation
 
 final class LogOutCoordinator: NSObject {
     private typealias ViewModel = LogOutViewController.ViewModel
-    @IBOutlet private weak var viewController: LogOutViewController!
+    @IBOutlet private var viewController: LogOutViewController!
     
     private var safetyZonesViewController: SafetyZonesViewController?
     private var invokeStoreParentReference: ((LogOutViewController) -> Void)!
@@ -29,7 +29,7 @@ final class LogOutCoordinator: NSObject {
     }
     
     private func storeParentReference(viewController: LogOutViewController) {
-        safetyZonesViewController = viewController.presentingViewController?.childViewControllers[0] as? SafetyZonesViewController
+        safetyZonesViewController = viewController.presentingViewController?.children[0] as? SafetyZonesViewController
     }
     
     private func logOut() {

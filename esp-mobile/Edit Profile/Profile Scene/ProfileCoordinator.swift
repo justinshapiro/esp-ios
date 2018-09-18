@@ -10,7 +10,7 @@ import Foundation
 
 final class ProfileCoordinator: NSObject {
     private typealias ViewModel = ProfileViewController.ViewModel
-    @IBOutlet weak private var viewController: ProfileViewController!
+    @IBOutlet private var viewController: ProfileViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()
@@ -20,7 +20,7 @@ final class ProfileCoordinator: NSObject {
     private func getUserInfo() {
         viewController.render(state: .waiting)
         ESPMobileAPI.getUserInfo { result in
-            switch (result) {
+            switch result {
             case .success: break
             case .successWithData(let data):
                 guard let userInfo = data.object as? UserInfo else { return }
@@ -41,11 +41,11 @@ final class ProfileCoordinator: NSObject {
         viewController.render(state: .waiting)
         
         ESPMobileAPI.updateUserName(userName: userInfo.name) { result in
-            switch (result) {
+            switch result {
             case .successWithData: break
             case .success:
                 ESPMobileAPI.updateUserEmail(userEmail: userInfo.email) { result in
-                    switch (result) {
+                    switch result {
                     case .successWithData: break
                     case .success: self.viewController.render(state: .success)
                     case .failure(let failure):

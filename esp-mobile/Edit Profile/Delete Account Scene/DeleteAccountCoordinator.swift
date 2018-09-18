@@ -10,7 +10,7 @@ import Foundation
 
 final class DeleteAccountCoordinator: NSObject {
     private typealias ViewModel = DeleteAccountViewController.ViewModel
-    @IBOutlet weak private var viewController: DeleteAccountViewController!
+    @IBOutlet private var viewController: DeleteAccountViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()

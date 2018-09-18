@@ -10,7 +10,7 @@ import UIKit
 
 final class LoginSceneViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case preInitial(PreInitial)
@@ -40,37 +40,37 @@ final class LoginSceneViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var usernameView: UIView! {
+    @IBOutlet private var usernameView: UIView! {
         didSet {
             usernameView.layer.borderWidth = 1
             usernameView.layer.borderColor = UIColor.lightGray.cgColor
         }
     }
     
-    @IBOutlet weak private var usernameIcon: UIImageView!
-    @IBOutlet weak private var usernameField: UITextField!
-    @IBOutlet weak private var passwordView: UIView! {
+    @IBOutlet private var usernameIcon: UIImageView!
+    @IBOutlet private var usernameField: UITextField!
+    @IBOutlet private var passwordView: UIView! {
         didSet {
             passwordView.layer.borderWidth = 1
             passwordView.layer.borderColor = UIColor.lightGray.cgColor
         }
     }
     
-    @IBOutlet weak private var passwordField: UITextField!
-    @IBOutlet weak private var passwordIcon: UIImageView!
-    @IBOutlet weak private var loginButton: UIButton! { didSet { loginButton.layer.cornerRadius = 5 } }
-    @IBOutlet weak private var signUpButton: UIButton!
+    @IBOutlet private var passwordField: UITextField!
+    @IBOutlet private var passwordIcon: UIImageView!
+    @IBOutlet private var loginButton: UIButton! { didSet { loginButton.layer.cornerRadius = 5 } }
+    @IBOutlet private var signUpButton: UIButton!
 
-    @IBOutlet weak private var facebook_button: UIButton! {
+    @IBOutlet private var facebook_button: UIButton! {
         didSet {
             facebook_button.layer.masksToBounds = true
             facebook_button.layer.cornerRadius = 5
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
         }
@@ -83,7 +83,7 @@ final class LoginSceneViewController: UIViewController {
     
     @IBAction func prepareForUnwind(segue: UIStoryboardSegue) {}
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -93,8 +93,8 @@ final class LoginSceneViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
@@ -105,7 +105,7 @@ final class LoginSceneViewController: UIViewController {
     }
     
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var invokeReadyForUpdate: (() -> Void)?
     private var needsUpdate = false
@@ -115,7 +115,7 @@ final class LoginSceneViewController: UIViewController {
         }
     }
     
-    // MARK: Overrides
+    // MARK: - Overrides
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -142,17 +142,15 @@ final class LoginSceneViewController: UIViewController {
         view.endEditing(true)
     }
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .preInitial(let preInitial): self.renderPreInitialState(state: preInitial)
-            case .initial(let initial):       self.renderInitialState(state: initial)
-            case .waiting:                    self.renderWaitingState()
-            case .failure(let failure):       self.renderFailureState(state: failure)
-            case .success:                    self.renderSuccessState()
-            }
+    func render(state: ViewModel) {
+        switch state {
+        case .preInitial(let preInitial): renderPreInitialState(state: preInitial)
+        case .initial(let initial):       renderInitialState(state: initial)
+        case .waiting:                    renderWaitingState()
+        case .failure(let failure):       renderFailureState(state: failure)
+        case .success:                    renderSuccessState()
         }
     }
     

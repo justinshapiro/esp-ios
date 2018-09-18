@@ -10,7 +10,7 @@ import Foundation
 
 final class EmergencyContactsCoordinator: NSObject {
     private typealias ViewModel = EmergencyContactsViewController.ViewModel
-    @IBOutlet weak private var viewController: EmergencyContactsViewController!
+    @IBOutlet private var viewController: EmergencyContactsViewController!
     
     private var invokeDeleteContact: ((String) -> Void)!
     

@@ -10,7 +10,7 @@ import UIKit
 
 final class AddContactViewController: UIViewController {
     
-    // MARK: View Model
+    // MARK: - View Model
     
     enum ViewModel {
         case initial(Initial)
@@ -33,9 +33,9 @@ final class AddContactViewController: UIViewController {
         }
     }
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    @IBOutlet weak private var tableView: UITableView! {
+    @IBOutlet private var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
@@ -43,14 +43,14 @@ final class AddContactViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var waitingIndicator: UIActivityIndicatorView! {
+    @IBOutlet private var waitingIndicator: UIActivityIndicatorView! {
         didSet {
             waitingIndicator.stopAnimating()
             waitingIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         }
     }
     
-    @IBOutlet weak private var effectiveErrorView: UIView! {
+    @IBOutlet private var effectiveErrorView: UIView! {
         didSet {
             effectiveErrorView.layer.cornerRadius = 5
             effectiveErrorView.layer.shadowColor = UIColor.black.cgColor
@@ -60,35 +60,33 @@ final class AddContactViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak private var errorView: UIView!
-    @IBOutlet weak private var errorMessage: UILabel!
+    @IBOutlet private var errorView: UIView!
+    @IBOutlet private var errorMessage: UILabel!
     @IBAction private func errorDismissal(_ sender: UIButton) {
         errorView.isHidden = true
     }
     
-    @IBOutlet weak private var searchBar: UISearchBar! {
+    @IBOutlet private var searchBar: UISearchBar! {
         didSet {
             searchBar.delegate = self
         }
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var contactsForCell: [[[String: String?]]] = []
     private var effectiveContactsForCell: [[[String: String?]]] = []
     private var invokeAddContact: ((String, String) -> Void)?
     
-    // MARK: State configuration
+    // MARK: - State configuration
     
-    public func render(state: ViewModel) {
-        DispatchQueue.main.async {
-            switch (state) {
-            case .initial(let initial):          self.renderInitialState(state: initial)
-            case .waiting:                       self.renderWaitingState()
-            case .failure(let failure):          self.renderFailureState(state: failure)
-            case .contactLoadBypass(let bypass): self.renderContactLoadBypassState(state: bypass)
-            case .addSuccess:                    self.renderAddSuccessState()
-            }
+     func render(state: ViewModel) {
+        switch state {
+        case .initial(let initial):          renderInitialState(state: initial)
+        case .waiting:                       renderWaitingState()
+        case .failure(let failure):          renderFailureState(state: failure)
+        case .contactLoadBypass(let bypass): renderContactLoadBypassState(state: bypass)
+        case .addSuccess:                    renderAddSuccessState()
         }
     }
     
@@ -124,12 +122,12 @@ final class AddContactViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    public func modalSuccessTransition() {
+     func modalSuccessTransition() {
         renderAddSuccessState()
     }
 }
 
-// MARK: UITableViewDelegate / UITableViewDataSource
+// MARK: - UITableViewDelegate / UITableViewDataSource
 
 extension AddContactViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -178,7 +176,7 @@ extension AddContactViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-// MARK: UISearchBarDelegate
+// MARK: - UISearchBarDelegate
 
 extension AddContactViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -193,7 +191,7 @@ extension AddContactViewController: UISearchBarDelegate {
                 var currentSectionKey: String = ""
                 var currentSection: [[String: String?]] = []
                 for (i, contact) in allSearchResults.enumerated() {
-                    if currentSectionKey == "" {
+                    if currentSectionKey.isEmpty {
                         currentSectionKey = String(Array(contact["name"]!!)[0]).uppercased()
                         currentSection.append(contact)
                         
@@ -238,7 +236,7 @@ extension AddContactViewController: UISearchBarDelegate {
 }
 
 final class DeviceContactCell: UITableViewCell {
-    @IBOutlet weak fileprivate var nameColor: UIImageView! {
+    @IBOutlet fileprivate var nameColor: UIImageView! {
         didSet {
             nameColor.backgroundColor = UIColor.lightGray
             nameColor.layer.borderWidth = 1.0
@@ -249,7 +247,7 @@ final class DeviceContactCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak fileprivate var initialLabel: UILabel!
-    @IBOutlet weak fileprivate var nameLabel: UILabel!
-    @IBOutlet weak fileprivate var phoneNumberLabel: UILabel!
+    @IBOutlet fileprivate var initialLabel: UILabel!
+    @IBOutlet fileprivate var nameLabel: UILabel!
+    @IBOutlet fileprivate var phoneNumberLabel: UILabel!
 }

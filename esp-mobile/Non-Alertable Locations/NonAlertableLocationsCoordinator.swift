@@ -10,7 +10,7 @@ import Foundation
 
 final class NonAlertableLocationsCoordinator: NSObject {
     private typealias ViewModel = NonAlertableLocationsViewController.ViewModel
-    @IBOutlet weak fileprivate var viewController: NonAlertableLocationsViewController!
+    @IBOutlet fileprivate var viewController: NonAlertableLocationsViewController!
     
     private var invokeDeleteAlertable: ((String) -> Void)!
     

@@ -10,7 +10,7 @@ import Foundation
 
 final class GiveLocationInfoCoordinator: NSObject {
     private typealias ViewModel = GiveLocationInfoViewController.ViewModel
-    @IBOutlet weak private var viewController: GiveLocationInfoViewController!
+    @IBOutlet private var viewController: GiveLocationInfoViewController!
     
     override func awakeFromNib() {
         viewController.loadViewIfNeeded()
@@ -20,17 +20,17 @@ final class GiveLocationInfoCoordinator: NSObject {
     private func addLocation(location: Location) {
         viewController.render(state: .waiting)
         
-        if location.address == "" {
+        if location.address.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "An address is required.",
                 submit: { self.addLocation(location: $0) }
             )))
-        } else if location.name == "" {
+        } else if location.name.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "A location name is required.",
                 submit: { self.addLocation(location: $0) }
             )))
-        } else if location.phoneNumber == "" {
+        } else if location.phoneNumber.isEmpty {
             viewController.render(state: .failure(.init(
                 message: "A phone number is required.",
                 submit: { self.addLocation(location: $0) }

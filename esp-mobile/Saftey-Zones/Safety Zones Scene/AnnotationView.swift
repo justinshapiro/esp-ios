@@ -14,7 +14,7 @@ final class AnnotationView: MKAnnotationView {
         let hitView = super.hitTest(point, with: event)
         
         if (hitView != nil) {
-            self.superview?.bringSubview(toFront: self)
+            self.superview?.bringSubviewToFront(self)
         }
         
         return hitView
